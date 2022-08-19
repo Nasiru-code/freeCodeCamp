@@ -1,40 +1,40 @@
 ---
 id: 5900f39f1000cf542c50feb2
-title: 'Problem 51: Prime digit replacements'
-challengeType: 5
+title: 'Problema 51: sostituzioni di cifre nei primi'
+challengeType: 1
 forumTopicId: 302162
 dashedName: problem-51-prime-digit-replacements
 ---
 
 # --description--
 
-By replacing the 1st digit of the 2-digit number \*3, it turns out that six of the nine possible values: 13, 23, 43, 53, 73, and 83, are all prime.
+Sostituendo la prima cifra del numero a 2 cifre \*3, si scopre che sei dei nove valori possibili: 13, 23, 43, 53, 73 e 83, sono tutti primi.
 
-By replacing the 3rd and 4th digits of 56\*\*3 with the same digit, this 5-digit number is the first example having seven primes among the ten generated numbers, yielding the family: 56003, 56113, 56333, 56443, 56663, 56773, and 56993. Consequently 56003, being the first member of this family, is the smallest prime with this property.
+Sostituendo la terza e la quarta cifra di 56\*\*3 con la stessa cifra, questo numero a 5 cifre è il primo esempio con sette primi tra i dieci numeri generati, della famiglia: 56003, 56113, 56333, 56443, 56663, 56773 e 56993. Di conseguenza, 56003, essendo il primo membro di questa famiglia, è il più piccolo primo con questa proprietà.
 
-Find the smallest prime which, by replacing part of the number (not necessarily adjacent digits) with the same digit, is part of an `n` prime value family.
+Trova il primo più piccolo che, sostituendo parte del numero (non necessariamente cifre adiacenti) con la stessa cifra, fa parte di una famiglia di `n` valori primi.
 
 # --hints--
 
-`primeDigitReplacements(6)` should return a number.
+`primeDigitReplacements(6)` dovrebbe restituire un numero.
 
 ```js
 assert(typeof primeDigitReplacements(6) === 'number');
 ```
 
-`primeDigitReplacements(6)` should return `13`.
+`primeDigitReplacements(6)` dovrebbe restituire `13`.
 
 ```js
 assert.strictEqual(primeDigitReplacements(6), 13);
 ```
 
-`primeDigitReplacements(7)` should return `56003`.
+`primeDigitReplacements(7)` dovrebbe restituire `56003`.
 
 ```js
 assert.strictEqual(primeDigitReplacements(7), 56003);
 ```
 
-`primeDigitReplacements(8)` should return `121313`.
+`primeDigitReplacements(8)` dovrebbe restituire `121313`.
 
 ```js
 assert.strictEqual(primeDigitReplacements(8), 121313);
@@ -56,68 +56,71 @@ primeDigitReplacements(6);
 # --solutions--
 
 ```js
+const NUM_PRIMES = 1000000;
+const PRIME_SEIVE = Array(Math.floor((NUM_PRIMES-1)/2)).fill(true);
+(function initPrimes(num) {
+  const upper = Math.floor((num - 1) / 2);
+  const sqrtUpper = Math.floor((Math.sqrt(num) - 1) / 2);
+  for (let i = 0; i <= sqrtUpper; i++) {
+    if (PRIME_SEIVE[i]) {
+      // Mark value in PRIMES array
+      const prime = 2 * i + 3;
+      // Mark all multiples of this number as false (not prime)
+      const primeSqaredIndex = 2 * i ** 2 + 6 * i + 3;
+      for (let j = primeSqaredIndex; j < upper; j += prime) {
+        PRIME_SEIVE[j] = false;
+      }
+    }
+  }
+})(NUM_PRIMES);
+
+function isPrime(num) {
+  if (num === 2) return true;
+  else if (num % 2 === 0) return false
+  else return PRIME_SEIVE[(num - 3) / 2];
+}
+
 function primeDigitReplacements(n) {
-  function isNFamily(number, primesMap, n) {
+  function isNFamily(number, n) {
     const prime = number.toString();
     const lastDigit = prime[prime.length - 1];
+    return doesReplacingMakeFamily(prime, '0', n) ||
+      doesReplacingMakeFamily(prime, '2', n) ||
+      (lastDigit !== '1' && doesReplacingMakeFamily(prime, '1', n));
+  }
+
+  function doesReplacingMakeFamily(prime, digitToReplace, family) {
+    let miss = 0;
+    const base = parseInt(
+      prime
+        .split('')
+        .map(digit => digit == digitToReplace ? '0' : digit)
+        .join('')
+    );
+    const replacements = parseInt(
+      prime
+        .split('')
+        .map(digit => digit === digitToReplace ? '1' : '0')
+        .join('')
+    );
+    const start = prime[0] === digitToReplace ? 1 : 0;
+    for (let i = start; i < 10; i++) {
+      const nextNumber = base + i * replacements;
+      if (!isPartOfFamily(nextNumber, prime)) miss++;
+      if (10 - start - miss < family) break;
+    }
+    return 10 - start - miss === family;
+  }
+
+  function isPartOfFamily(number, prime) {
     return (
-      doesReplacingMakeFamily(prime, '0', primesMap, n) ||
-      (lastDigit !== '1' &&
-        doesReplacingMakeFamily(prime, '1', primesMap, n)) ||
-      doesReplacingMakeFamily(prime, '2', primesMap, n)
+      isPrime(number) && number.toString().length === prime.length
     );
   }
 
-  function doesReplacingMakeFamily(prime, digitToReplace, primesMap, family) {
-    let count = 0;
-    const replaceWith = '0123456789';
-
-    for (let i = 0; i < replaceWith.length; i++) {
-      const nextNumber = parseInt(
-        prime.replace(new RegExp(digitToReplace, 'g'), replaceWith[i]),
-        10
-      );
-
-      if (isPartOfFamily(nextNumber, prime, primesMap)) {
-        count++;
-      }
-    }
-    return count === family;
-  }
-
-  function isPartOfFamily(number, prime, primesMap) {
-    return (
-      isPrime(number, primesMap) && number.toString().length === prime.length
-    );
-  }
-
-  function getSievePrimes(max) {
-    const primesMap = new Array(max).fill(true);
-    primesMap[0] = false;
-    primesMap[1] = false;
-
-    for (let i = 2; i < max; i++) {
-      if (primesMap[i]) {
-        let j = i * i;
-        for (j; j < max; j += i) {
-          primesMap[j] = false;
-        }
-      }
-    }
-    return primesMap;
-  }
-
-  function isPrime(num, primesMap) {
-    return primesMap[num];
-  }
-
-  const primesMap = getSievePrimes(1000000);
-
-  for (let number = 1; number < 300000; number++) {
-    if (primesMap[number]) {
-      if (isNFamily(number, primesMap, n)) {
-        return number;
-      }
+  for (let number = 1; number < 125000; number++) {
+    if (isPrime(number) && isNFamily(number, n)) {
+      return number;
     }
   }
   return -1;

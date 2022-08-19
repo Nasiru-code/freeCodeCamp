@@ -1,7 +1,7 @@
 ---
 id: 5900f42f1000cf542c50ff40
 title: 'Problema 194: Configurações colorizadas'
-challengeType: 5
+challengeType: 1
 forumTopicId: 301832
 dashedName: problem-194-coloured-configurations
 ---
@@ -16,7 +16,7 @@ Uma configuração do tipo $(a,b,c)$ é um gráfico que faz parte de $a$ unidade
 
 Considere $N(a,b,c)$ o número de configurações do tipo $(a,b,c)$. Por exemplo, $N(1,0,3) = 24$, $N(0,2,4) = 92928$ e $N(2,2,3) = 20736$.
 
-Encontre os últimos 8 dígitos de $N(25,75,1984)$.
+Encontre os últimos 8 algarismos de $N(25,75,1984)$.
 
 # --hints--
 

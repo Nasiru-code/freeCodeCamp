@@ -2,51 +2,63 @@
 
 Lee nuestra ["Guía de como contribuir a Open Source"](https://github.com/freeCodeCamp/how-to-contribute-to-open-source). Es una referencia completa para proyectos aptos para principiantes. E incluye muchos consejos de contribución de código abierto.
 
-### ¿Puedo traducir recursos de freeCodeCamp?
+### ¿Qué necesito saber para contribuir al código base?
 
-Si -  Puedes contribuir a cualquiera de los mas de 30 idiomas que hemos habilitado en nuestra plataforma de traducción.
+freeCodeCamp se ejecuta en una moderna plataforma de JavaScript. Si estás interesado en contribuir a nuestra base de código, necesitarás cierta familiaridad con JavaScript y algunas de las tecnologías que usamos como Node.js, MongoDB, OAuth 2.0, React, Gatsby, y Webpack.
 
-Tenemos traducciones aportadas por los usuarios en vivo en algunos idiomas. Tenemos la intención de traducir freeCodeCamp a los principales idiomas del mundo. Puedes leer todo sobre esto en nuestro [anuncio aquí](https://www.freecodecamp.org/news/world-language-translation-effort).
+### ¿Puedo traducir los recursos de freeCodeCamp?
 
-Si estas interesado en ayudar a traducir, por favor asegúrate de [leer esta guía](how-to-translate-files.md) primero.
+Sí - Puedes contribuir cualquiera de los más de 30 idiomas que hemos habilitado en nuestra plataforma de traducción.
 
-### ¿Cómo puedo reportar un nuevo error?
+Tenemos traducciones hechas por usuarios nativos en algunos idiomas. Tenemos la intención de traducir freeCodeCamp a los principales idiomas del mundo. You can read all about this in our [announcement here](https://www.freecodecamp.org/news/help-translate-freecodecamp-language/).
 
-Si piensas que has encontrado un error, primero lee el articulo ["Ayuda, he encontrado un error"](https://forum.freecodecamp.org/t/how-to-report-a-bug/19543) y sigue sus instrucciones.
+Si estás interesado en ayudar a traducir, por favor asegúrate de [leer esta guía](how-to-translate-files.md) primero.
 
-Si estas seguro de que es un nuevo error, continúa y crea un nuevo tema de GitHub. Asegúrate de incluir tanta información como sea posible para que podamos reproducir el error.  Disponemos de una plantilla de temas predefinida para ayudarte con esto.
+### Puedo contribuír con artículos a las Noticias de freeCodeCamp o con vídeos al canal de YouTube de freeCodeCamp?
 
-Ten en cuenta que estos temas de GitHub son para discusiones y problemas relacionados con la base de código, no para obtener ayuda para aprender a codificar. Cuando tengas dudas, deberías [buscar asistencia en el foro](https://forum.freecodecamp.org) antes de crear un tema en GitHub.
+Sí - puedes contribuir a las publicaciones de nuestro blog y canal de YouTube.
 
-### ¿Cómo puedo informar sobre un problema de seguridad?
+Si estás interesade en escribir artículos para las Noticias de freeCodeCamp, por favor visita esta [guía de publicaciones](https://www.freecodecamp.org/news/how-to-write-for-freecodecamp/). Además, por favor lea nuestra [guía de estilo](https://www.freecodecamp.org/news/developer-news-style-guide/) ya que esto le ayudará a escribir artículos más fuertes y efectivos.
 
-Por favor, no crees temas en GitHub por problemas de seguridad. En su lugar, envía un correo electrónico a  `security@freecodecamp.org` y lo investigaremos inmediatamente.
+Para ayudarnos a crear vídeos educacionales para nuestro canal de YouTube, puedes seguir la [guía del canal de YouTube](https://www.freecodecamp.org/news/how-to-contribute-to-the-freecodecamp-community-youtube-channel-b86bce4c865/).
 
-### Soy un estudiante. ¿Puedo trabajar en una funcionalidad para créditos académicos?
+### Cómo puedo reportar un nuevo error?
 
-Si. Por favor, ten en cuenta que no podemos encomendar ningún plazo o documentos que puedan ser requeridos por tu colegio o universidad. Recibimos muchas pull-requests y contribuciones de código por parte de desarrolladores voluntarios, y respetamos su tiempo y esfuerzos. Por respeto a todos nuestros otros colaboradores, nosotros no daremos ninguna prioridad especial a las relaciones públicas solo porque esté relacionado con una escuela.
+If you think you've found a bug, first read the ["How to Report a Bug"](https://www.freecodecamp.org/news/how-to-report-a-bug-to-freecodecamp/) article and follow its instructions.
 
-Te solicitamos que planifiques con anticipación y trabajes contribuyendo en el código con esto en mente.
+Si estás seguro de que es un error nuevo, crea un tema de GitHub nuevo.  Asegúrate de incluir tanta información como sea posible para que podamos reproducir el error.  Tenemos una plantilla de informe predefinida para ayudarte con esto.
 
-### ¿Qué significan estas diferentes etiquetas que están agregadas en los temas?
+Ten en cuenta que estos temas de GitHub son para debates y problemas relacionados al código base, no para obtener ayuda para aprender a programar. Siempre que tenga dudas, debe [buscar ayuda en el foro](https://forum.freecodecamp.org) antes de reportar un problema de GitHub.
 
-Los mantenedores de código [clasifican](https://en.wikipedia.org/wiki/Software_bug#Bug_management) problemas y solicitudes de extracción en función de su prioridad, gravedad y otros factores. Puedes encontrar [un glosario completo con sus significados aquí](https://github.com/freecodecamp/freecodecamp/labels).
+### ¿Cómo puedo reportar un problema de seguridad?
 
-### ¿Dónde comienzo si quiero trabajar en una propuesta?
+Por favor, no crees Tema de GitHub para problemas de seguridad. Instead, please [follow our security policy](https://contribute.freecodecamp.org/#/security).
 
-Debes ir a través de [**`help wanted`**](https://github.com/freeCodeCamp/freeCodeCamp/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22) o cuestiones [**`first timers only`**](https://github.com/freeCodeCamp/freeCodeCamp/issues?q=is%3Aopen+is%3Aissue+label%3A%22first+timers+only%22) para una visión general rápida de lo que está disponible para trabajar.
+### Soy estudiante. ¿Puedo trabajar en una característica para los créditos académicos?
+
+Sí. Tenga en cuenta que no podemos comprometernos con ningún plazo o papeleo que pueda ser un requisito de su colegio o universidad. Recibimos muchas solicitudes de incorporación de cambios y contribuciones de código de desarrolladores voluntarios, y respetamos su tiempo y esfuerzos. Por respeto a todos nuestros otros colaboradores, no le daremos prioridad especial a las relaciones públicas solo porque esté relacionado con la escuela.
+
+Le solicitamos que planifique con anticipación y trabaje en las contribuciones de código teniendo esto en cuenta.
+
+### ¿Qué significan estas diferentes etiquetas que se etiquetan en los problemas?
+
+Los mantenedores de código [clasifican](https://en.wikipedia.org/wiki/Software_bug#Bug_management) problemas y pull requests basados en su prioridad, gravedad y otros factores. Puedes [encontrar un glosario completo de sus significados aquí](https://github.com/freecodecamp/freecodecamp/labels).
+
+### ¿Dónde comienzo si quiero trabajar en un problema?
+
+Deberías pasar por los temas [**`se busca ayuda`**](https://github.com/freeCodeCamp/freeCodeCamp/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22) o [**`solo principiantes`**](https://github.com/freeCodeCamp/freeCodeCamp/issues?q=is%3Aopen+is%3Aissue+label%3A%22first+timers+only%22) para una rápida visión general de lo que está disponible para que trabajes.
 
 > [!TIP] Los temas de **`se busca ayuda`** están en marcha y no es necesario pedir permiso antes de trabajar en ellos. Sin embargo, temas con la etiqueta **`solo principiantes`** son temas especiales que están diseñados para personas que no han contribuido a la base de código de freeCodeCamp antes.
 
 ### Encontré un error tipográfico. ¿Debo informar de un problema antes de poder hacer un pull request?
 
-Por errores tipográficos y cambios de palabras, puede abrir directamente pull requests sin crear un tema antes. Por favor, asegúrate de mencionar los detalles en la descripción del pull request para ayudarnos a entender y revisar tu contribución, incluso si es un cambio menor.
+Para errores tipográficos y otros cambios de redacción, puedes abrir pull-requests directamente sin tener que crear un problema primero. Asegúrese de mencionar los detalles en la descripción del pull request para ayudarnos a comprender y revisar su contribución, incluso si es solo un cambio menor.
 
-Por favor crea un tema si deseas discutir aspectos más amplios del código base o del currículo.
+Por favor crea un reporte si deseas discutir aspectos más amplios del código base o currículo.
 
 ### ¿Cómo puedo conseguir que me asignen un tema?
 
-Por lo general, no asignamos los temas a nadie más que a los colaboradores con mucha antigüedad. En lugar de ello, seguimos la política siguiente para ser justos con todos:
+Por lo general, no asignamos los temas a nadie más que a los colaboradores con mucha antigüedad. En su lugar, seguimos la siguiente política para ser justos con todos:
 
 1. Lo más probable es que fusionemos el primer pull request que aborde el tema o problema.
 2. En el caso de múltiples colaboradores abriendo un pull request para el mismo problema más o menos al mismo tiempo, daremos prioridad al pull request que aborde mejor la cuestión. Algunas de las cosas que consideramos:
@@ -57,31 +69,37 @@ Por lo general, no asignamos los temas a nadie más que a los colaboradores con 
    - ¿Has seguido la lista de verificación de pull request?
    - ¿Has dado a tu pull request un título significativo?
 
+### Estoy interesado en ser moderador en freeCodeCamp. ¿Dónde debería empezar?
+
+Los moderadores de la comunidad son nuestros héroes. Sus contribuciones voluntarias hacen a freeCodeCamp una comunidad segura y acogedora.
+
+En primer lugar, necesitamos que seas un participante activo en la  comunidad, y vivas nuestro [código de conducta](https://www.freecodecamp.org/news/code-of-conduct/) (No solo hacerlo cumplir).
+
+Aquí hay algunas rutas para algunas de nuestras plataformas:
+
+- Para ser un moderador de **Discord/Chat**, hay que tener una presencia activa en nuestro chat y tener tratos positivos con los demás, mientras que también aprender y practicar cómo para hacer frente a los posibles conflictos que puedan surgir.
+- Para ser moderador del **Foro**, similar a un moderador de chat, debe de tener una presencia activa y participar en otras publicaciones del foro, apoyando a otros en su camino de aprendizaje, e incluso dar retroalimentación cuando se le pregunte. Echa un vistazo a [El manual del líder del subforo](https://forum.freecodecamp.org/t/the-subforum-leader-handbook/326326) para más información.
+- Para ser un moderador de **GitHub**, ayuda para procesar problemas de GitHub que son planteados para ver si son válidos e (idealmente) tratar de proponer soluciones para estos problemas que deben ser recogidos por otros (o por ti mismo).
+
+En total, sé respetuoso con los demás. Somos seres humanos en todo el mundo. Con esto en mente, por favor considera usar un lenguaje animado o de apoyo y ser consciente de la comunicación intercultural.
+
+Si practicas lo anterior de forma consistente **durante un tiempo** y nuestros compañeros moderadores los recomiendan, un miembro del personal se pondrá en contacto contigo con el equipo de moderadores. El trabajo de código abierto es voluntario, y nuestro tiempo es limitado. Reconocemos que esto probablemente también sea cierto en su caso. Así que enfatizamos ser **consistente** en lugar de comprometerse en la comunidad 24/7.
+
+Echa un vistazo a nuestro [Manual de Moderadores](moderator-handbook.md) para una lista más exhaustiva de otras responsabilidades y expectativas que tenemos de nuestros moderadores.
+
 ### Estoy atascado en algo que no está incluido en esta documentación.
 
-**Eres bienvenido a pedir ayuda en:**
+**Siéntete libre de pedir ayuda en:**
 
-- La categoría de `Colaboradores` de [nuestro foro de la comunidad](https://forum.freecodecamp.org/c/contributors).
-- El canal `#Contributors` en [nuestro servidor de chat](https://chat.freecodecamp.org/channel/contributors).
+- La categoria de `Contributors` de [nuestro foro de comunidad](https://forum.freecodecamp.org/c/contributors).
+- The `#Contributors` channel on [our chat server](https://discord.gg/PRyKn3Vbay).
 
-Estamos emocionados de poder ayudarte a contribuir en cualquier tema en el que te gustaría trabajar. Si nos haces preguntas en los hilos de conversación de los temas relacionados, estaremos encantados de clarificar las cosas. Asegúrate de buscar tu pregunta antes de publicar una nueva.
+Estamos encantados de ayudarte a contribuir en cualquiera de los temas en los que quieras trabajar. Si nos hace preguntas sobre los issue threads, estaremos encantados de aclararlo. Asegúrate de buscar tu pregunta antes de publicar una nueva.
 
 Gracias de antemano por ser amable y paciente. Recuerda, esta comunidad es manejada principalmente por voluntarios.
 
 ### Asistencia adicional
 
-Si tiene preguntas sobre el stack, la arquitectura del código base, las traducciones o cualquier otra cosa, no dude en comunicarse con nuestro personal.
+Si tiene preguntas sobre el stack, arquitectura de la base de código, traducciones, o cualquier otra cosa, no dudes en contactar con nuestro equipo de personal [en el foro](https://forum.freecodecamp.org/g/team).
 
-| Personal              | Enviar mensaje en el Foro                                                    |
-|:--------------------- |:---------------------------------------------------------------------------- |
-| Ahmad Abdolsaheb      | [@abdolsa](https://forum.freecodecamp.org/u/abdolsa)                         |
-| Kristofer Koishigawa  | [@scissorsneedfoodtoo](https://forum.freecodecamp.org/u/scissorsneedfoodtoo) |
-| Miya Liu              | [@miyaliu](https://chinese.freecodecamp.org/forum/u/miyaliu)                 |
-| Mrugesh Mohapatra     | [@raisedadead](https://forum.freecodecamp.org/u/raisedadead)                 |
-| Nicholas Carrigan     | [@nhcarrigan](https://forum.freecodecamp.org/u/nhcarrigan)                   |
-| Oliver Eyton-Williams | [@ojeytonwilliams](https://forum.freecodecamp.org/u/ojeytonwilliams)         |
-| Rafael D Hernandez    | [@RafaelHernandez](https://forum.freecodecamp.org/u/rafaelhernandez)         |
-| Shaun Hamilton        | [@sky020](https://forum.freecodecamp.org/u/sky020)                           |
-| Tom Mondloc           | [@moT01](https://forum.freecodecamp.org/u/moT01)                             |
-
-**Puedes enviar un correo electrónico a nuestro equipo de desarrolladores en: `dev[at]freecodecamp.org`**
+**Puedes enviar un correo a nuestro grupo de desarrolladores en: `dev[at]freecodecamp.org`**

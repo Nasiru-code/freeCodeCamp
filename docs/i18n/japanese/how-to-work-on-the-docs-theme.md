@@ -1,54 +1,78 @@
-# How to work on the docs theme
+# ドキュメントに貢献する方法
 
-> [!NOTE] A quick reminder that you do not need to setup anything for working on the content for the documentation site.
+## Work on the content of the docs
+
+コントリビューションガイドラインを編集するには、`docs` [ディレクトリ](https://github.com/freeCodeCamp/freeCodeCamp/tree/main/docs) のファイルを編集または追加します。 When your changes are merged, they will be made available automatically at the documentation site.
+
+### 内部リンクを作成する
+
+コントリビューションガイドラインの他セクションをリンク先に設定する場合、次の形式に従ってください。
+
+```md
+[Link text](target-file-name.md#target-section-heading-id)
+
+// リンク先セクションが同じページ内にある場合、ファイル名を省略できます
+[Link text](#target-section-heading-id)
+```
+
+拡張子 (`.md`) を必ず含めてください。 URL 全体を指定したり、ファイル名の前に `/` を付けたりしないでください。
+
+上記は翻訳版のドキュメントでリンクが動作するために必要です。 この形式に従わないリンクは、言語に関係なく英語版のページにリダイレクトされます。
+
+#### 内部リンクのあるドキュメントを翻訳する
+
+Crowdin でドキュメントの翻訳を行う際には、`#target-section-heading-id` を翻訳版のドキュメント上の id と置き換えてください。 [ドキュメントの翻訳について詳しくはこちらを参照してください](how-to-translate-files.md#ドキュメントを翻訳する)。
+
+## ドキュメントのテーマに貢献する
+
+> [!NOTE] A quick reminder that you do not need to set up anything for working on the content for the documentation site.
 > 
-> To work on the contributing guidelines, you can edit or add files in the `docs` directory [available here](https://github.com/freeCodeCamp/freeCodeCamp/tree/main/docs). When your changes are merged, it will be made available automatically at the documentation site.
+> コントリビューションガイドラインを編集するには、[ドキュメントの内容に貢献する](#ドキュメントの内容に貢献する) セクションを参照してください。
 
-## Structure of the docs website
+### ドキュメント Web サイトの構造
 
-The site is generated using [`docsify`](https://docsify.js.org), and served using GitHub pages.
+The site is generated using [`docsify`](https://docsify.js.org) and served using GitHub pages.
 
-Typically you would not need to change any configuration or build the site locally. In case you are interested, here is how it works:
+通常、サイトの設定を変更したり、サイトをローカルにビルドしたりする必要はありません。 参考までに、以下のように動作します。
 
-- The homepage's source for this site is available in [`docs/index.html`](index.html).
-- We serve this file as a SPA using `docsify` and GitHub Pages.
-- The `docsify` script generates the content of `markdown` files in `docs` directory on demand.
-- The homepage is generated from the [`_coverpage.md`](_coverpage.md).
-- the sidebar navigation is generated from [`_sidebar.md`](_sidebar.md).
+- このサイト向けのホームページのソースは、[`docs/index.html`](index.html) にあります。
+- `docsify` と GitHub Pages を使用して、このファイルを SPA として提供します。
+- The `docsify` script generates the content of `markdown` files in the `docs` directory on demand.
+- ホームページは [`_coverpage.md`](_coverpage.md) から生成されます。
+- サイドバーナビゲーションは [`_sidebar.md`](_sidebar.md) から生成されます。
 
-## Serving the documentation site locally
+### ローカルでドキュメントサイトを提供する
 
-Clone freeCodeCamp:
+freeCodeCamp をクローンする
 
 ```console
 git clone https://github.com/freeCodeCamp/freeCodeCamp.git
-docsify serve docs
 ```
 
-Install `docsify`:
+`docsify` をインストールする
 
 ```console
 npm install -g docsify
 ```
 
-and serve the `/docs` directory
+`/docs` ディレクトリを提供する
 
 ```console
 docsify serve docs
 ```
 
-Alternatively, if you have installed freeCodeCamp locally (see the local setup guide), we bundle the CLI with the development tools so you can run any of the below commands as needed from the root of the repo:
+または、freeCodeCamp がすでにローカルにインストールされている場合 (ローカルセットアップガイド参照)、CLI に開発ツールがバンドルされています。必要に応じて、リポジトリのルートから以下のコマンドを実行することができます。
 
-### Serve and launch the documentation site only
+#### ドキュメントサイトのみを提供して起動する
 
 ```console
 npm run docs:serve
 ```
 
-### Serve the documentation site alongside freeCodeCamp locally:
+#### freeCodeCamp と一緒にドキュメントサイトをローカルで提供する
 
 ```console
 npm run develop
 ```
 
-> The documentation site should be available at <http://localhost:3200>
+> ドキュメントサイトは <http://localhost:3200> で利用できます。

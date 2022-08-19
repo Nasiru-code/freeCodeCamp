@@ -20,11 +20,11 @@ import {
 } from '../../../../redux/prop-types';
 import ChallengeDescription from '../../components/Challenge-Description';
 import Hotkeys from '../../components/Hotkeys';
-import TestSuite from '../../components/Test-Suite';
 import ChallengeTitle from '../../components/challenge-title';
 import CompletionModal from '../../components/completion-modal';
 import HelpModal from '../../components/help-modal';
 import Output from '../../components/output';
+import TestSuite from '../../components/test-suite';
 import {
   challengeMounted,
   challengeTestsSelector,
@@ -123,16 +123,20 @@ class BackEnd extends Component<BackEndProps> {
     const {
       data: {
         challengeNode: {
-          title: prevTitle,
-          fields: { tests: prevTests }
+          challenge: {
+            title: prevTitle,
+            fields: { tests: prevTests }
+          }
         }
       }
     } = prevProps;
     const {
       data: {
         challengeNode: {
-          title: currentTitle,
-          fields: { tests: currTests }
+          challenge: {
+            title: currentTitle,
+            fields: { tests: currTests }
+          }
         }
       }
     } = this.props;
@@ -149,10 +153,12 @@ class BackEnd extends Component<BackEndProps> {
       updateChallengeMeta,
       data: {
         challengeNode: {
-          fields: { tests },
-          title,
-          challengeType,
-          helpCategory
+          challenge: {
+            fields: { tests },
+            title,
+            challengeType,
+            helpCategory
+          }
         }
       },
       pageContext: { challengeMeta }
@@ -182,15 +188,18 @@ class BackEnd extends Component<BackEndProps> {
     const {
       data: {
         challengeNode: {
-          fields: { blockName },
-          challengeType,
-          forumTopicId,
-          title,
-          description,
-          instructions,
-          translationPending,
-          superBlock,
-          block
+          challenge: {
+            fields: { blockName },
+            challengeType,
+            forumTopicId,
+            title,
+            description,
+            instructions,
+            translationPending,
+            certification,
+            superBlock,
+            block
+          }
         }
       },
       isChallengeCompleted,
@@ -203,7 +212,9 @@ class BackEnd extends Component<BackEndProps> {
       updateSolutionFormValues
     } = this.props;
 
-    const blockNameTitle = `${blockName} - ${title}`;
+    const blockNameTitle = `${t(
+      `intro:${superBlock}.blocks.${block}.title`
+    )} - ${title}`;
 
     return (
       <Hotkeys
@@ -256,6 +267,7 @@ class BackEnd extends Component<BackEndProps> {
               <CompletionModal
                 block={block}
                 blockName={blockName}
+                certification={certification}
                 superBlock={superBlock}
               />
               <HelpModal />
@@ -276,22 +288,25 @@ export default connect(
 
 export const query = graphql`
   query BackendChallenge($slug: String!) {
-    challengeNode(fields: { slug: { eq: $slug } }) {
-      forumTopicId
-      title
-      description
-      instructions
-      challengeType
-      helpCategory
-      superBlock
-      block
-      translationPending
-      fields {
-        blockName
-        slug
-        tests {
-          text
-          testString
+    challengeNode(challenge: { fields: { slug: { eq: $slug } } }) {
+      challenge {
+        forumTopicId
+        title
+        description
+        instructions
+        challengeType
+        helpCategory
+        certification
+        superBlock
+        block
+        translationPending
+        fields {
+          blockName
+          slug
+          tests {
+            text
+            testString
+          }
         }
       }
     }

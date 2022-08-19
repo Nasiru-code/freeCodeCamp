@@ -1,34 +1,35 @@
 import { first } from 'lodash-es';
 import React, { useState, ReactElement } from 'react';
 import { ReflexContainer, ReflexSplitter, ReflexElement } from 'react-reflex';
-import envData from '../../../../../config/env.json';
 import { sortChallengeFiles } from '../../../../../utils/sort-challengefiles';
+import { challengeTypes } from '../../../../utils/challenge-types';
 import {
   ChallengeFile,
   ChallengeFiles,
   ResizeProps
 } from '../../../redux/prop-types';
 import ActionRow from './action-row';
-import EditorTabs from './editor-tabs';
-
-const { showUpcomingChanges } = envData;
 
 type Pane = { flex: number };
 
 interface DesktopLayoutProps {
   block: string;
   challengeFiles: ChallengeFiles;
+  challengeType: number;
   editor: ReactElement | null;
   hasEditableBoundaries: boolean;
+  hasNotes: boolean;
   hasPreview: boolean;
   instructions: ReactElement;
   layoutState: {
     codePane: Pane;
     editorPane: Pane;
     instructionPane: Pane;
+    notesPane: Pane;
     previewPane: Pane;
     testsPane: Pane;
   };
+  notes: ReactElement;
   preview: ReactElement;
   resizeProps: ResizeProps;
   superBlock: string;
@@ -43,9 +44,10 @@ const DesktopLayout = (props: DesktopLayoutProps): JSX.Element => {
   const [showNotes, setShowNotes] = useState(false);
   const [showPreview, setShowPreview] = useState(true);
   const [showConsole, setShowConsole] = useState(false);
+  const [showInstructions, setShowInstuctions] = useState(true);
 
-  const switchDisplayTab = (displayTab: string): void => {
-    switch (displayTab) {
+  const togglePane = (pane: string): void => {
+    switch (pane) {
       case 'showPreview':
         setShowPreview(!showPreview);
         break;
@@ -55,7 +57,11 @@ const DesktopLayout = (props: DesktopLayoutProps): JSX.Element => {
       case 'showNotes':
         setShowNotes(!showNotes);
         break;
+      case 'showInstructions':
+        setShowInstuctions(!showInstructions);
+        break;
       default:
+        setShowInstuctions(false);
         setShowConsole(false);
         setShowPreview(false);
         setShowNotes(false);
@@ -64,57 +70,71 @@ const DesktopLayout = (props: DesktopLayoutProps): JSX.Element => {
 
   const getChallengeFile = () => {
     const { challengeFiles } = props;
-    return first(sortChallengeFiles(challengeFiles)) as ChallengeFile | null;
+    return first(sortChallengeFiles(challengeFiles) as ChallengeFile[]);
   };
 
   const {
     block,
+    challengeType,
     resizeProps,
     instructions,
     editor,
     testOutput,
+    hasNotes,
     hasPreview,
     layoutState,
+    notes,
     preview,
     hasEditableBoundaries,
     superBlock
   } = props;
 
   const challengeFile = getChallengeFile();
-  const projectBasedChallenge = showUpcomingChanges && hasEditableBoundaries;
-  const isPreviewDisplayable = projectBasedChallenge
-    ? showPreview && hasPreview
-    : hasPreview;
-  const isConsoleDisplayable = projectBasedChallenge ? showConsole : true;
-  const { codePane, editorPane, instructionPane, previewPane, testsPane } =
-    layoutState;
+  const projectBasedChallenge = hasEditableBoundaries;
+  const isMultifileCertProject =
+    challengeType === challengeTypes.multifileCertProject;
+  const displayPreview =
+    projectBasedChallenge || isMultifileCertProject
+      ? showPreview && hasPreview
+      : hasPreview;
+  const displayNotes = projectBasedChallenge ? showNotes && hasNotes : false;
+  const displayConsole =
+    projectBasedChallenge || isMultifileCertProject ? showConsole : true;
+  const {
+    codePane,
+    editorPane,
+    instructionPane,
+    notesPane,
+    previewPane,
+    testsPane
+  } = layoutState;
 
   return (
     <div className='desktop-layout'>
-      {projectBasedChallenge && (
+      {(projectBasedChallenge || isMultifileCertProject) && (
         <ActionRow
           block={block}
+          hasNotes={hasNotes}
+          isProjectBasedChallenge={projectBasedChallenge}
           showConsole={showConsole}
           showNotes={showNotes}
+          showInstructions={showInstructions}
           showPreview={showPreview}
           superBlock={superBlock}
-          switchDisplayTab={switchDisplayTab}
+          togglePane={togglePane}
         />
       )}
       <ReflexContainer orientation='vertical'>
-        {!projectBasedChallenge && (
+        {!projectBasedChallenge && showInstructions && (
           <ReflexElement flex={instructionPane.flex} {...resizeProps}>
             {instructions}
           </ReflexElement>
         )}
-        {!projectBasedChallenge && (
+        {!projectBasedChallenge && showInstructions && (
           <ReflexSplitter propagate={true} {...resizeProps} />
         )}
 
         <ReflexElement flex={editorPane.flex} {...resizeProps}>
-          {challengeFile && showUpcomingChanges && !hasEditableBoundaries && (
-            <EditorTabs />
-          )}
           {challengeFile && (
             <ReflexContainer
               key={challengeFile.fileKey}
@@ -127,10 +147,10 @@ const DesktopLayout = (props: DesktopLayoutProps): JSX.Element => {
               >
                 {editor}
               </ReflexElement>
-              {isConsoleDisplayable && (
+              {displayConsole && (
                 <ReflexSplitter propagate={true} {...resizeProps} />
               )}
-              {isConsoleDisplayable && (
+              {displayConsole && (
                 <ReflexElement
                   flex={testsPane.flex}
                   {...reflexProps}
@@ -142,10 +162,15 @@ const DesktopLayout = (props: DesktopLayoutProps): JSX.Element => {
             </ReflexContainer>
           )}
         </ReflexElement>
-        {isPreviewDisplayable && (
-          <ReflexSplitter propagate={true} {...resizeProps} />
+        {displayNotes && <ReflexSplitter propagate={true} {...resizeProps} />}
+        {displayNotes && (
+          <ReflexElement flex={notesPane.flex} {...resizeProps}>
+            {notes}
+          </ReflexElement>
         )}
-        {isPreviewDisplayable && (
+
+        {displayPreview && <ReflexSplitter propagate={true} {...resizeProps} />}
+        {displayPreview && (
           <ReflexElement flex={previewPane.flex} {...resizeProps}>
             {preview}
           </ReflexElement>

@@ -1,5 +1,5 @@
 import { Grid } from '@freecodecamp/react-bootstrap';
-import React from 'react';
+import React, { useRef } from 'react';
 import Helmet from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -8,7 +8,7 @@ import { createSelector } from 'reselect';
 import envData from '../../../config/env.json';
 import { createFlashMessage } from '../components/Flash/redux';
 import { Loader, Spacer } from '../components/helpers';
-import Certification from '../components/settings/Certification';
+import Certification from '../components/settings/certification';
 import About from '../components/settings/about';
 import DangerZone from '../components/settings/danger-zone';
 import Email from '../components/settings/email';
@@ -16,17 +16,29 @@ import Honesty from '../components/settings/honesty';
 import Internet from '../components/settings/internet';
 import Portfolio from '../components/settings/portfolio';
 import Privacy from '../components/settings/privacy';
-import WebhookToken from '../components/settings/webhook-token';
+import { Themes } from '../components/settings/theme';
+import UserToken from '../components/settings/user-token';
 import {
   signInLoadingSelector,
   userSelector,
   isSignedInSelector,
-  hardGoTo as navigate
+  hardGoTo as navigate,
+  userTokenSelector
 } from '../redux';
 import { User } from '../redux/prop-types';
-import { submitNewAbout, updateUserFlag, verifyCert } from '../redux/settings';
+import {
+  submitNewAbout,
+  updateMyHonesty,
+  updateMyPortfolio,
+  updateMyQuincyEmail,
+  updateMySound,
+  updateMyTheme,
+  updateMyKeyboardShortcuts,
+  updateUserFlag,
+  verifyCert
+} from '../redux/settings';
 
-const { apiLocation, showUpcomingChanges } = envData;
+const { apiLocation } = envData;
 
 // TODO: update types for actions
 interface ShowSettingsProps {
@@ -35,8 +47,9 @@ interface ShowSettingsProps {
   navigate: (location: string) => void;
   showLoading: boolean;
   submitNewAbout: () => void;
-  toggleNightMode: (theme: string) => void;
+  toggleNightMode: (theme: Themes) => void;
   toggleSoundMode: (sound: boolean) => void;
+  toggleKeyboardShortcuts: (keyboardShortcuts: boolean) => void;
   updateInternetSettings: () => void;
   updateIsHonest: () => void;
   updatePortfolio: () => void;
@@ -44,16 +57,19 @@ interface ShowSettingsProps {
   user: User;
   verifyCert: () => void;
   path?: string;
+  userToken: string | null;
 }
 
 const mapStateToProps = createSelector(
   signInLoadingSelector,
   userSelector,
   isSignedInSelector,
-  (showLoading: boolean, user: User, isSignedIn) => ({
+  userTokenSelector,
+  (showLoading: boolean, user: User, isSignedIn, userToken: string | null) => ({
     showLoading,
     user,
-    isSignedIn
+    isSignedIn,
+    userToken
   })
 );
 
@@ -61,13 +77,15 @@ const mapDispatchToProps = {
   createFlashMessage,
   navigate,
   submitNewAbout,
-  toggleNightMode: (theme: string) => updateUserFlag({ theme }),
-  toggleSoundMode: (sound: boolean) => updateUserFlag({ sound }),
+  toggleNightMode: (theme: Themes) => updateMyTheme({ theme }),
+  toggleSoundMode: (sound: boolean) => updateMySound({ sound }),
+  toggleKeyboardShortcuts: (keyboardShortcuts: boolean) =>
+    updateMyKeyboardShortcuts({ keyboardShortcuts }),
   updateInternetSettings: updateUserFlag,
-  updateIsHonest: updateUserFlag,
-  updatePortfolio: updateUserFlag,
+  updateIsHonest: updateMyHonesty,
+  updatePortfolio: updateMyPortfolio,
   updateQuincyEmail: (sendQuincyEmail: boolean) =>
-    updateUserFlag({ sendQuincyEmail }),
+    updateMyQuincyEmail({ sendQuincyEmail }),
   verifyCert
 };
 
@@ -79,6 +97,7 @@ export function ShowSettings(props: ShowSettingsProps): JSX.Element {
     submitNewAbout,
     toggleNightMode,
     toggleSoundMode,
+    toggleKeyboardShortcuts,
     user: {
       completedChallenges,
       email,
@@ -97,6 +116,7 @@ export function ShowSettings(props: ShowSettingsProps): JSX.Element {
       isSciCompPyCertV7,
       isDataAnalysisPyCertV7,
       isMachineLearningPyCertV7,
+      isRelationalDatabaseCertV8,
       isEmailVerified,
       isHonest,
       sendQuincyEmail,
@@ -106,6 +126,7 @@ export function ShowSettings(props: ShowSettingsProps): JSX.Element {
       points,
       theme,
       sound,
+      keyboardShortcuts,
       location,
       name,
       githubProfile,
@@ -120,14 +141,16 @@ export function ShowSettings(props: ShowSettingsProps): JSX.Element {
     updateInternetSettings,
     updatePortfolio,
     updateIsHonest,
-    verifyCert
+    verifyCert,
+    userToken
   } = props;
+  const isSignedInRef = useRef(isSignedIn);
 
   if (showLoading) {
     return <Loader fullScreen={true} />;
   }
 
-  if (!isSignedIn) {
+  if (!isSignedInRef.current) {
     navigate(`${apiLocation}/signin`);
     return <Loader fullScreen={true} />;
   }
@@ -149,9 +172,11 @@ export function ShowSettings(props: ShowSettingsProps): JSX.Element {
             picture={picture}
             points={points}
             sound={sound}
+            keyboardShortcuts={keyboardShortcuts}
             submitNewAbout={submitNewAbout}
             toggleNightMode={toggleNightMode}
             toggleSoundMode={toggleSoundMode}
+            toggleKeyboardShortcuts={toggleKeyboardShortcuts}
             username={username}
           />
           <Spacer />
@@ -194,13 +219,18 @@ export function ShowSettings(props: ShowSettingsProps): JSX.Element {
             isJsAlgoDataStructCert={isJsAlgoDataStructCert}
             isMachineLearningPyCertV7={isMachineLearningPyCertV7}
             isQaCertV7={isQaCertV7}
+            isRelationalDatabaseCertV8={isRelationalDatabaseCertV8}
             isRespWebDesignCert={isRespWebDesignCert}
             isSciCompPyCertV7={isSciCompPyCertV7}
             username={username}
             verifyCert={verifyCert}
           />
-          {showUpcomingChanges && <Spacer />}
-          {showUpcomingChanges && <WebhookToken />}
+          {userToken && (
+            <>
+              <Spacer />
+              <UserToken />
+            </>
+          )}
           <Spacer />
           <DangerZone />
         </main>

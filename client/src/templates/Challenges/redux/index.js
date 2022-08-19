@@ -2,10 +2,9 @@ import { isEmpty } from 'lodash-es';
 import { createAction, handleActions } from 'redux-actions';
 
 import { getLines } from '../../../../../utils/get-lines';
-import { createPoly } from '../../../../../utils/polyvinyl';
 import { challengeTypes } from '../../../../utils/challenge-types';
 import { completedChallengesSelector } from '../../../redux';
-import { getTargetEditor } from '../utils/getTargetEditor';
+import { getTargetEditor } from '../utils/get-target-editor';
 import { actionTypes, ns } from './action-types';
 import codeLockEpic from './code-lock-epic';
 import codeStorageEpic from './code-storage-epic';
@@ -39,7 +38,9 @@ const initialState = {
     completion: false,
     help: false,
     video: false,
-    reset: false
+    reset: false,
+    projectPreview: false,
+    shortcuts: false
   },
   projectFormValues: {},
   successMessage: 'Happy Coding!'
@@ -57,25 +58,19 @@ export const sagas = [
   ...createCurrentChallengeSaga(actionTypes)
 ];
 
-// TODO: can createPoly handle editable region, rather than separating it?
 export const createFiles = createAction(
   actionTypes.createFiles,
   challengeFiles =>
-    challengeFiles.reduce((challengeFiles, challengeFile) => {
-      return [
-        ...challengeFiles,
-        {
-          ...createPoly(challengeFile),
-          seed: challengeFile.contents.slice(),
-          editableContents: getLines(
-            challengeFile.contents,
-            challengeFile.editableRegionBoundaries
-          ),
-          seedEditableRegionBoundaries:
-            challengeFile.editableRegionBoundaries.slice()
-        }
-      ];
-    }, [])
+    challengeFiles.map(challengeFile => ({
+      ...challengeFile,
+      seed: challengeFile.contents.slice(),
+      editableContents: getLines(
+        challengeFile.contents,
+        challengeFile.editableRegionBoundaries
+      ),
+      seedEditableRegionBoundaries:
+        challengeFile.editableRegionBoundaries?.slice()
+    }))
 );
 
 export const createQuestion = createAction(actionTypes.createQuestion);
@@ -114,14 +109,15 @@ export const closeModal = createAction(actionTypes.closeModal);
 export const openModal = createAction(actionTypes.openModal);
 
 export const previewMounted = createAction(actionTypes.previewMounted);
+export const projectPreviewMounted = createAction(
+  actionTypes.projectPreviewMounted
+);
 export const challengeMounted = createAction(actionTypes.challengeMounted);
 export const checkChallenge = createAction(actionTypes.checkChallenge);
 export const executeChallenge = createAction(actionTypes.executeChallenge);
 export const resetChallenge = createAction(actionTypes.resetChallenge);
 export const stopResetting = createAction(actionTypes.stopResetting);
 export const submitChallenge = createAction(actionTypes.submitChallenge);
-
-export const moveToTab = createAction(actionTypes.moveToTab);
 
 export const setEditorFocusability = createAction(
   actionTypes.setEditorFocusability
@@ -148,6 +144,9 @@ export const isCompletionModalOpenSelector = state =>
 export const isHelpModalOpenSelector = state => state[ns].modal.help;
 export const isVideoModalOpenSelector = state => state[ns].modal.video;
 export const isResetModalOpenSelector = state => state[ns].modal.reset;
+export const isProjectPreviewModalOpenSelector = state =>
+  state[ns].modal.projectPreview;
+export const isShortcutsModalOpenSelector = state => state[ns].modal.shortcuts;
 export const isResettingSelector = state => state[ns].isResetting;
 
 export const isBuildEnabledSelector = state => state[ns].isBuildEnabled;
@@ -161,7 +160,7 @@ export const challengeDataSelector = state => {
   let challengeData = { challengeType };
   if (
     challengeType === challengeTypes.js ||
-    challengeType === challengeTypes.bonfire
+    challengeType === challengeTypes.jsProject
   ) {
     challengeData = {
       ...challengeData,
@@ -191,7 +190,8 @@ export const challengeDataSelector = state => {
     };
   } else if (
     challengeType === challengeTypes.html ||
-    challengeType === challengeTypes.modern
+    challengeType === challengeTypes.modern ||
+    challengeType === challengeTypes.multifileCertProject
   ) {
     const { required = [], template = '' } = challengeMetaSelector(state);
     challengeData = {
@@ -231,13 +231,11 @@ export const reducer = handleActions(
         );
       return {
         ...state,
-        challengeFiles: [
-          ...state.challengeFiles.filter(x => x.fileKey !== fileKey),
-          {
-            ...state.challengeFiles.find(x => x.fileKey === fileKey),
-            ...updates
-          }
-        ]
+        challengeFiles: state.challengeFiles.map(challengeFile =>
+          challengeFile.fileKey === fileKey
+            ? { ...challengeFile, ...updates }
+            : { ...challengeFile }
+        )
       };
     },
     [actionTypes.storedCodeFound]: (state, { payload }) => ({
@@ -342,10 +340,6 @@ export const reducer = handleActions(
         ...state.modal,
         [payload]: true
       }
-    }),
-    [actionTypes.moveToTab]: (state, { payload }) => ({
-      ...state,
-      currentTab: payload
     }),
     [actionTypes.executeChallenge]: state => ({
       ...state,

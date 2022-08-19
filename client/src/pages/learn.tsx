@@ -50,7 +50,9 @@ interface LearnPageProps {
   user: User;
   data: {
     challengeNode: {
-      fields: Slug;
+      challenge: {
+        fields: Slug;
+      };
     };
   };
 }
@@ -61,7 +63,9 @@ function LearnPage({
   user: { name = '', completedChallengeCount = 0 },
   data: {
     challengeNode: {
-      fields: { slug }
+      challenge: {
+        fields: { slug }
+      }
     }
   }
 }: LearnPageProps) {
@@ -92,13 +96,21 @@ function LearnPage({
 
 LearnPage.displayName = 'LearnPage';
 
-export default connect(mapStateToProps)(LearnPage);
+export default connect(mapStateToProps, null)(LearnPage);
 
 export const query = graphql`
   query FirstChallenge {
-    challengeNode(order: { eq: 0 }, challengeOrder: { eq: 0 }) {
-      fields {
-        slug
+    challengeNode(
+      challenge: {
+        superOrder: { eq: 0 }
+        order: { eq: 0 }
+        challengeOrder: { eq: 0 }
+      }
+    ) {
+      challenge {
+        fields {
+          slug
+        }
       }
     }
   }

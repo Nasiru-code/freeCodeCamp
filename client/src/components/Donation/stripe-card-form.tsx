@@ -1,4 +1,3 @@
-/* eslint-disable no-undefined */
 import { Button, Form } from '@freecodecamp/react-bootstrap';
 import {
   CardNumberElement,
@@ -16,7 +15,9 @@ import type {
 import React, { useState } from 'react';
 
 import envData from '../../../../config/env.json';
+import { Themes } from '../settings/theme';
 import { AddDonationData } from './paypal-button';
+import SecurityLockIcon from './security-lock-icon';
 
 const { stripePublicKey }: { stripePublicKey: string | null } = envData;
 
@@ -32,8 +33,9 @@ interface FormPropTypes {
     handleAuthentication: HandleAuthentication
   ) => void;
   t: (label: string) => string;
-  theme: string;
+  theme: Themes;
   processing: boolean;
+  isVariantA: boolean;
 }
 
 interface Element {
@@ -49,7 +51,8 @@ const StripeCardForm = ({
   t,
   onDonationStateChange,
   postStripeCardDonation,
-  processing
+  processing,
+  isVariantA
 }: FormPropTypes): JSX.Element => {
   const [isSubmissionValid, setSubmissionValidity] = useState(true);
   const [isTokenizing, setTokenizing] = useState(false);
@@ -92,7 +95,7 @@ const StripeCardForm = ({
     style: {
       base: {
         fontSize: '18px',
-        color: `${theme === 'night' ? '#fff' : '#0a0a23'}`,
+        color: `${theme === Themes.Night ? '#fff' : '#0a0a23'}`,
         '::placeholder': {
           color: `#858591`
         }
@@ -132,7 +135,7 @@ const StripeCardForm = ({
   ) => {
     if (stripe) {
       return stripe.confirmCardPayment(clientSecret, {
-        // eslint-disable-next-line camelcase, @typescript-eslint/naming-convention
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         payment_method: paymentMethod
       });
     }
@@ -167,7 +170,8 @@ const StripeCardForm = ({
         disabled={!stripe || !elements || isSubmitting}
         type='submit'
       >
-        Donate
+        {!isVariantA && <SecurityLockIcon />}
+        {t('buttons.donate')}
       </Button>
     </Form>
   );

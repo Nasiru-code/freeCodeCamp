@@ -1,7 +1,7 @@
 ---
 id: 5900f5101000cf542c510022
 title: 'Problema 419: Sequência para olhar e dizer'
-challengeType: 5
+challengeType: 1
 forumTopicId: 302088
 dashedName: problem-419-look-and-say-sequence
 ---
@@ -10,9 +10,9 @@ dashedName: problem-419-look-and-say-sequence
 
 A sequência para olhar e dizer é 1, 11, 21, 1211, 111221, 312211, 13112221, 1113213211, ...
 
-A sequência começa com 1 e todos os outros membros são obtidos descrevendo o membro anterior em termos de dígitos consecutivos.
+A sequência começa com 1 e todos os outros membros são obtidos descrevendo o membro anterior em termos de algarismos consecutivos.
 
-Ajuda ler os dígitos em voz alta:
+Ajuda ler os algarismos em voz alta:
 
 1 é 'um um' $→ 11$
 

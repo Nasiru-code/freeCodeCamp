@@ -9,13 +9,15 @@ dashedName: port-scanner
 
 # --description--
 
-You will be [working on this project with our Replit starter code](https://replit.com/github/freeCodeCamp/boilerplate-port-scanner).
+You will be <a href="https://replit.com/github/freeCodeCamp/boilerplate-port-scanner" target="_blank" rel="noopener noreferrer nofollow">working on this project with our Replit starter code</a>.
 
 We are still developing the interactive instructional part of the Python curriculum. For now, here are some videos on the freeCodeCamp.org YouTube channel that will teach you everything you need to know to complete this project:
 
-- [Python for Everybody Video Course](https://www.freecodecamp.org/news/python-for-everybody/) (14 hours)
+- <a href="https://www.freecodecamp.org/news/python-for-everybody/" target="_blank" rel="noopener noreferrer nofollow">Python for Everybody Video Course</a> (14 hours)
 
-- [Learn Python Video Course](https://www.freecodecamp.org/news/learn-python-video-course/) (10 hours)
+- <a href="https://www.freecodecamp.org/news/learn-python-basics-in-depth-video-course/" target="_blank" rel="noopener noreferrer nofollow">Learn Python Basics in Depth</a> (4 hours)
+
+- <a href="https://www.freecodecamp.org/news/intermediate-python-course/" target="_blank" rel="noopener noreferrer nofollow">Intermediate Python Course</a> (6 hours)
 
 # --instructions--
 
@@ -32,7 +34,7 @@ get_open_ports("www.stackoverflow.com", [79, 82])
 
 The function should return a list of open ports in the given range.
 
-The `get_open_ports` function should also take an optional third argument of `True` to indicate "Verbose" mode. If this is set to true, the function shourd return a descriptive string instead of a list of ports.
+The `get_open_ports` function should also take an optional third argument of `True` to indicate "Verbose" mode. If this is set to true, the function should return a descriptive string instead of a list of ports.
 
 Here is the format of the string that should be returned in verbose mode (text inside `{}` indicates the information that should appear):
 

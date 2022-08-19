@@ -3,9 +3,9 @@ import React from 'react';
 import Helmet from 'react-helmet';
 import { TFunction, useTranslation } from 'react-i18next';
 
-import { CurrentChallengeLink, FullWidthRow, Link, Spacer } from '../helpers';
+import { FullWidthRow, Link, Spacer } from '../helpers';
 import { User } from './../../redux/prop-types';
-import Timeline from './components/TimeLine';
+import Timeline from './components/time-line';
 import Camper from './components/camper';
 import Certifications from './components/certifications';
 import HeatMap from './components/heat-map';
@@ -42,10 +42,6 @@ function renderMessage(
         <p className='alert alert-info'>
           {t('profile.username-change-privacy', { username: username })}
         </p>
-      </FullWidthRow>
-      <Spacer />
-      <FullWidthRow>
-        <CurrentChallengeLink>{t('buttons.take-me')}</CurrentChallengeLink>
       </FullWidthRow>
       <Spacer />
     </>

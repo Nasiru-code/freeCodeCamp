@@ -197,7 +197,7 @@ Atualmente uma versão pública de testes beta está disponível em:
 
 O time de desenvolvimento faz o merge nas mudanças da branch `prod-staging` para `prod-current` quando lançam mudanças. O commit principal deve ser o que você vê no site.
 
-Você pode identificar a versão exata implantada visitando os registros de compilação e implantação disponíveis na seção de estado. Alternativamente, você também pode entrar em contato na [sala de bate-papo dos contribuidores](https://chat.freecodecamp.org/channel/contributors).
+Você pode identificar a versão exata implantada visitando os registros de compilação e implantação disponíveis na seção de estado. Alternativamente, você também pode entrar em contato na [sala de bate-papo dos contribuidores](https://discord.gg/PRyKn3Vbay).
 
 ### Limitações conhecidas
 
@@ -459,14 +459,14 @@ Provisionando MVs com o código
 7. Compile o servidor
 
    ```console
-   npm run ensure-env && npm run build:curriculum && npm run build:server
+   npm run create:config && npm run build:curriculum && npm run build:server
    ```
 
 8. Inicie instâncias
 
    ```console
    cd api-server
-   pm2 start ./lib/production-start.js -i max --max-memory-restart 600M --name org
+   pm2 reload ecosystem.config.js
    ```
 
 ### Registro e monitoramento
@@ -502,7 +502,7 @@ npm ci
 3. Compile o servidor
 
 ```console
-npm run ensure-env && npm run build:curriculum && npm run build:server
+npm run create:config && npm run build:curriculum && npm run build:server
 ```
 
 4. Inicie instâncias
@@ -536,7 +536,7 @@ Provisionando MVs com o código
 2. Atualize o `npm` e instale o PM2 e configure `logrotate` e inicie quando reiniciar
 
    ```console
-   npm i -g npm@6
+   npm i -g npm@8
    npm i -g pm2
    npm install -g serve
    pm2 install pm2-logrotate
@@ -779,6 +779,20 @@ As alterações na configuração das nossas instâncias NGINX são mantidas no 
 
    Selecione sim (y) para remover tudo que não está sendo usado. Isso vai remover todos os containers parados, todas as redes e volumes não usados por pelo menos um container e imagens pendentes e caches de compilação.
 
+## Trabalho com as ferramentas do colaborador
+
+### Implantar atualizações
+
+ssh na VM (hospedada na Digital Ocean).
+
+```console
+cd tools
+git pull origin master
+npm ci
+npm run build
+pm2 restart contribute-app
+```
+
 ## Atualize as versões do Node.js nas MVs
 
 Liste as versões do node e do npm instaladas
@@ -831,7 +845,7 @@ Obtenha as instruções/comandos de instalação com o comando `startup` e use a
 pm2 startup
 ```
 
-Comandos rápidos para PM2 para listar, reviver processos salvos etc.
+Comandos rápidos PM2 para listar, reviver processos salvos, etc.
 
 ```console
 pm2 ls
@@ -851,7 +865,7 @@ pm2 logs
 
 ## Instalando e atualizando agentes do Azure Pipeline
 
-Veja: https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/v2-linux?view=azure-devops e siga as instruções para parar, remover e reinstalar agentes. Em resumo, você pode seguir as etapas listadas aqui.
+Veja: https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/v2-linux?view=azure-devops e siga as instruções para parar, remover e reinstalar os agentes. Em resumo, você pode seguir as etapas listadas aqui.
 
 Você vai precisar de um PAT, que você pode pegar nesse link: https://dev.azure.com/freeCodeCamp-org/_usersSettings/tokens
 
@@ -897,7 +911,7 @@ Atualmente, atualizar os agentes requer que sejam removidos e reconfigurados. Is
    rm -rf ~/azagent
    ```
 
-Uma vez que você completar as etapas acima, você pode repetir as mesmas etapas na instalação do agente.
+Quando você completar as etapas acima, você pode repetir as mesmas etapas na instalação do agente.
 
 # Manual de Vôo - Disparo de e-mail
 

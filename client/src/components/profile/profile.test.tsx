@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
+import { Themes } from '../settings/theme';
 
 import Profile from './profile';
 
@@ -46,9 +47,11 @@ const userProps = {
     name: 'string',
     picture: 'string',
     points: 1,
+    savedChallenges: [],
     sendQuincyEmail: true,
     sound: true,
-    theme: 'string',
+    keyboardShortcuts: false,
+    theme: Themes.Default,
     twitter: 'string',
     username: 'string',
     website: 'string',
@@ -69,7 +72,8 @@ const userProps = {
     isRespWebDesignCert: true,
     isSciCompPyCertV7: true,
     isDataAnalysisPyCertV7: true,
-    isMachineLearningPyCertV7: true
+    isMachineLearningPyCertV7: true,
+    isRelationalDatabaseCertV8: true
   },
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   navigate: () => {}

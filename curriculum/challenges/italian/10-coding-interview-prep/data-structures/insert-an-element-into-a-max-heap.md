@@ -48,7 +48,7 @@ Alla fine, aggiungi un metodo `print` che restituire un array di tutti gli eleme
 
 # --hints--
 
-La struttura dati MaxHeap dovrebbe esistere.
+La struttura dati `MaxHeap` dovrebbe esistere
 
 ```js
 assert(
@@ -62,7 +62,7 @@ assert(
 );
 ```
 
-MaxHeap dovrebbe avere un metodo chiamato insert.
+`MaxHeap`dovrebbe avere un metodo chiamato `insert`.
 
 ```js
 assert(
@@ -78,7 +78,7 @@ assert(
 );
 ```
 
-MaxHeap dovrebbe avere un metodo chiamato print.
+`MaxHeap` dovrebbe avere un metodo chiamato `print`
 
 ```js
 assert(
@@ -94,7 +94,7 @@ assert(
 );
 ```
 
-Il metodo insert dovrebbe aggiungere elementi rispettando la proprietà max heap.
+Il metodo `insert` dovrebbe aggiungere elementi in base alla proprietà heap massima
 
 ```js
 assert(
@@ -110,8 +110,12 @@ assert(
     test.insert(700);
     test.insert(32);
     test.insert(51);
-    let result = test.print();
-    return result.length == 5 ? result[0] == 700 : result[1] == 700;
+    test.insert(800);
+    const result = test.print();
+    const solution = JSON.stringify([null,800,51,700,32,50,100]);
+    const solutionWithoutNull = JSON.stringify([800,51,700,32,50,100]);
+
+    return (result.length == 6) ? (JSON.stringify(result) == solutionWithoutNull) : (JSON.stringify(result) == solution);
   })()
 );
 ```

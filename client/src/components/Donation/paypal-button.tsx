@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable camelcase */
-
 import React, { Component, Ref } from 'react';
 import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -13,6 +9,7 @@ import {
 } from '../../../../config/donation-settings';
 import envData from '../../../../config/env.json';
 import { signInLoadingSelector, userSelector } from '../../redux';
+import { Themes } from '../settings/theme';
 import PayPalButtonScriptLoader from './paypal-button-script-loader';
 
 type PaypalButtonProps = {
@@ -41,7 +38,7 @@ type PaypalButtonProps = {
   skipAddDonation?: boolean;
   t: (label: string) => string;
   ref?: Ref<PaypalButton>;
-  theme: string;
+  theme: Themes;
   isSubscription?: boolean;
   handlePaymentButtonLoad: (provider: 'stripe' | 'paypal') => void;
   isMinimalForm: boolean | undefined;
@@ -88,9 +85,10 @@ export class PaypalButton extends Component<
     this.handleApproval = this.handleApproval.bind(this);
   }
 
-  static getDerivedStateFromProps(props: PaypalButtonProps): PaypalButtonState {
+  static getDerivedStateFromProps(
+    props: Readonly<PaypalButtonProps>
+  ): PaypalButtonState {
     const { donationAmount, donationDuration } = props;
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const configurationObj: {
       amount: number;
       duration: string;
@@ -131,7 +129,7 @@ export class PaypalButton extends Component<
     const { duration, planId, amount } = this.state;
     const { t, theme, isPaypalLoading, isMinimalForm } = this.props;
     const isSubscription = duration !== 'onetime';
-    const buttonColor = theme === 'night' ? 'white' : 'gold';
+    const buttonColor = theme === Themes.Night ? 'white' : 'gold';
     if (!paypalClientId) {
       return null;
     }
