@@ -10,7 +10,7 @@ Note que para a versão 7.0 do currículo do freeCodeCamp, nós estamos migrando
 
 A criação destes desafios exige imensa criatividade e atenção aos pormenores. Há muita ajuda disponível. Você terá o apoio de toda uma equipe de colaboradores para quem você pode buscar ideias e provar seus desafios.
 
-E como sempre, fique à vontade em perguntar na [categoria 'Contribuidores' do fórum](https://forum.freecodecamp.org/c/contributors) ou [no chat dos contribuidores](https://chat.freecodecamp.org/channel/contributors).
+E como sempre, fique à vontade em perguntar na [categoria 'Contribuidores' do fórum](https://forum.freecodecamp.org/c/contributors) ou [no chat dos contribuidores](https://discord.gg/PRyKn3Vbay).
 
 Com sua ajuda, nós podemos projetar um currículo de programação interativo que ajudará milhões de pessoas a aprender a programar nos próximos anos.
 
@@ -64,11 +64,18 @@ Testes para executar o código do usuário, em par com o markdown e bloco de có
 Código para o teste um
 ```
 
-Mais instruções em sintaxe markdown
+Se você quer um resultado dinâmico baseada no código do usuário, --fcc-expected-- e --fcc-actual-- serão substituídos pelos valores esperados e reais da verificação do teste. Tome cuidado se você tiver várias afirmações já que a primeira afirmação em que houver uma falha determinará os valores de --fcc-expected-- e --fcc-actual--.
 
 ```js
-Mais código
+assert.equal(
+  'isso substituirá --fcc-actual--',
+  'isso substituirá --fcc-expected--'
+);
 ```
+
+# --notes--
+
+Informações extras para um desafio, em markdown
 
 # --seed--
 
@@ -135,7 +142,7 @@ Esses espaços são utilizados geralmente para questões de múltipla escolha do
 
 ## --text--
 
-O texto da pergunta vêm aqui.
+O texto da questão vêm aqui.
 
 ## --answers--
 
@@ -199,7 +206,7 @@ Nomear coisas é difícil. Nós facilitamos com algumas restrições.
 
 Todos os títulos dos desafios devem estar explícitos e devem seguir este padrão:
 
-\[verb\]\[frase objetiva\]
+\[verbo\]\[frase objetiva\]
 
 Aqui estão alguns exemplos de nomes para desafios:
 
@@ -213,9 +220,9 @@ As frases devem ser claras e resumidas com o mínimo de termos técnicos. Se usa
 
 Mantenha os parágrafos curtos (em torno de 1-4 frases). É mais provável que as pessoas leiam vários parágrafos curtos do que um parágrafo enorme.
 
-O texto do desafio deve usar a segunda pessoa ("você") para ajudar a dar um tom de conversa. Dessa forma, o texto e as instruções parecem falar diretamente ao usuário freeCodeCamp que está resolvendo o desafio. Tente evitar usar a primeira pessoa ("eu", "nós", "vamos").
+O desafio de texto deve usar a segunda pessoa ("você") para ajudar a dar um tom coloquial. Dessa forma, o texto e as instruções parecem falar diretamente ao usuário freeCodeCamp que está resolvendo o desafio. Tente evitar usar a primeira pessoa ("eu", "nós", "vamos").
 
-Não use links externos. Eles interrompem o fluxo. Os usuários freeCodeCamp nunca devem precisar pesquisar nada no Google durante esses desafios. Se há recursos que você acha que os usuários irão se beneficiar, adicione-os no artigo relacionado ao guia do desafio.
+Não use links externos. Eles interrompem o fluxo. Os usuários do freeCodeCamp nunca devem precisar pesquisar nada no Google durante esses desafios. Se há recursos que você acha que os usuários irão se beneficiar, adicione-os no artigo relacionado ao guia do desafio.
 
 Você pode adicionar diagramas se necessário.
 
@@ -263,9 +270,9 @@ Use `parseInt` para converter a variável `realNumber` em um número inteiro.
 - Blocos de código com várias linhas **devem ser precedidos por uma linha vazia**. A próxima linha deve começar com três crases seguidas imediatamente por uma das [linguagens suportadas](https://prismjs.com/#supported-languages). Para completar o bloco de código, você deve começar uma nova linha que apenas possui três crases e **outra linha vazia**. Veja o exemplo abaixo:
 - Os espaços importam no Markdown. Então, recomendamos que os mantenham visíveis no seu editor.
 
-**Observação:** se você for usar um exemplo de códigoem YAML, use `yaml` ao invés de `yml` para a linguagem na direita das crases.
+**Observação:** se você for usar um exemplo de código em YAML, use `yaml` ao invés de `yml` para a linguagem à direita das crases.
 
-A seguir um exemplo do código:
+Exemplo de código:
 
 ````md
 ```{language}
@@ -366,7 +373,7 @@ class MyComponent extends React.Component {
 
 Existem dicionários de comentários separados para cada linguagem. A [versão em inglês do dicionário de comentários](/curriculum/dictionaries/english/comments.js) é a base para as traduções encontradas nas versões correspondentes dos arquivos em outros idiomas. A versão não inglesa do dicionário de comentário chinesa pode ser encontrada em `/curriculum/dictionaries/chinese/comments.js`. Cada dicionário consiste em um array de objetos com uma propriedade de `id` única e uma propriedade de `text`. Somente a propriedade `text` deve ser modificada para englobar a tradução do comentário correspondente em inglês.
 
-Alguns comentários podem conter uma palavra/frase que não deve ser traduzida. Por exemplo, nomes de variáveis, ou nomes próprios de bibliotecas como "React" não devem ser traduzidas. Veja o comentário abaixo como um exemplo. a palavra `myGlobal` não deve ser traduzida.
+Alguns comentários podem conter uma palavra/frase que não deve ser traduzida. Por exemplo, nomes de variáveis, ou nomes próprios de bibliotecas como "React" não devem ser traduzidas. Veja o comentário abaixo como um exemplo. A palavra `myGlobal` não deve ser traduzida.
 
 ```text
 Declare a variável myGlobal abaixo desta linha
@@ -474,12 +481,12 @@ Você também é capaz de testar um desafio individualmente seguindo as seguinte
    cd curriculum
    ```
 
-2. Execute o comando a seguir para cada arquivo de desafio que você fez mudanças (substituindo `challenge-title-goes-here` com o título completo do desafio):
+2. Execute o comando a seguir para cada arquivo de desafio no qual você fez alteraçõess (substituindo `challenge-title-goes-here` com o título completo do desafio):
 
    ```
    npm run test -- -g challenge-title-goes-here ```
 
-Quando você verificou que cada desafio modificado passou nos testes, [crie um pull request](how-to-open-a-pull-request.md).
+Quando você verificar que cada desafio modificado passou nos testes, [crie um pull request](how-to-open-a-pull-request.md).
 
 > [!TIP] Você pode definir a variável de ambiente `LOCALE` no `.env` no idioma do(s) desafio(s) que precisa testar.
 > 
@@ -487,7 +494,7 @@ Quando você verificou que cada desafio modificado passou nos testes, [crie um p
 
 ### Links úteis
 
-Criando e editando desafios:
+Criação e edição de desafios:
 
 1. [Tipos de desafio](https://github.com/freeCodeCamp/freeCodeCamp/blob/main/client/utils/challenge-types.js#L1-L13) - o que significam os valores do tipo de desafio numérico (enum).
 

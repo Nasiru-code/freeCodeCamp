@@ -1,7 +1,7 @@
 ---
 id: 5900f3d01000cf542c50fee2
 title: 'Problema 99: Maior exponencial'
-challengeType: 5
+challengeType: 1
 forumTopicId: 302216
 dashedName: problem-99-largest-exponential
 ---
@@ -10,7 +10,7 @@ dashedName: problem-99-largest-exponential
 
 Comparar dois números escritos em forma de índice como $2^{11}$ e $3^7$ não é difícil, como uma calculadora confirmaria que $2^{11} = 2048 &lt; 3^7 = 2187$.
 
-No entanto, confirmar que $632382^{518061} &lt; 519432^{525806}$ seria muito mais difícil, já que ambos os números contêm mais de três milhões de dígitos.
+No entanto, confirmar que $632382^{518061} &lt; 519432^{525806}$ seria muito mais difícil, já que ambos os números contêm mais de três milhões de algarismos.
 
 Usando o array bidimensional `baseExp` de pares base/expoente, determine par com o maior valor numérico e retorne-o.
 

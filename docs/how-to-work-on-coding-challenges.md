@@ -10,7 +10,7 @@ Note that for Version 7.0 of the freeCodeCamp curriculum, we are moving toward [
 
 Creating these challenges requires immense creativity and attention to detail. There's plenty of help available. You'll have support from a whole team of contributors to whom you can bounce ideas off and demo your challenges.
 
-And as always, feel free to ask questions on the ['Contributors' category on our forum](https://forum.freecodecamp.org/c/contributors) or [the contributors chat room](https://chat.freecodecamp.org/channel/contributors).
+And as always, feel free to ask questions on the ['Contributors' category on our forum](https://forum.freecodecamp.org/c/contributors) or [the contributors chat room](https://discord.gg/PRyKn3Vbay).
 
 With your help, we can design an interactive coding curriculum that will help millions of people learn to code for years to come.
 
@@ -64,11 +64,18 @@ Tests to run against user code, in pairs of markdown text and code block test co
 Code for test one
 ```
 
-More instructions in markdown syntax
+If you want dynamic output based on the user's code, --fcc-expected-- and --fcc-actual-- will be replaced with the expected and actual values of the test's assertion. Take care if you have multiple assertions since the first failing assertion will determine the values of --fcc-expected-- and --fcc-actual--.
 
 ```js
-More code
+assert.equal(
+  'this will replace --fcc-actual--',
+  'this will replace --fcc-expected--'
+);
 ```
+
+# --notes--
+
+Extra information for a challenge, in markdown
 
 # --seed--
 

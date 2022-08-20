@@ -18,7 +18,7 @@ La maggior parte dei file per tradurre la piattaforma si trovano nella cartella 
 
 ```console
   config/i18n
-  └── all-langs.js
+  └── all-langs.ts
   ...
    client/i18n
   ├── configForTests.js
@@ -56,7 +56,7 @@ La maggior parte dei file per tradurre la piattaforma si trovano nella cartella 
   │       └── trending.json
   ├── locales.test.js
   ├── schema-validation.js
-  └── validate-keys.js
+  └── validate-keys.ts
 ```
 
 Alcuni di questi file sono tradotti sulla nostra piattaforma di traduzione (Crowdin), altri no.
@@ -77,7 +77,7 @@ Alcuni di questi file sono tradotti sulla nostra piattaforma di traduzione (Crow
 
 - Il file `meta-tags.json` contiene le informazioni per il meta tag del nostro sito.
 
-  I cambiamenti su questi file sono tipicamente fatti dallo staff. Se vedi qualcosa fuori dall'ordinario, ti raccomandiamo di metterti in contatto con noi sulla [chat dei contributori](https://chat.freecodecamp.org/channel/contributors).
+  I cambiamenti su questi file sono tipicamente fatti dallo staff. Se vedi qualcosa fuori dall'ordinario, ti raccomandiamo di metterti in contatto con noi sulla [chat dei contributori](https://discord.gg/PRyKn3Vbay).
 
 ## Testare la app client in una lingua internazionale
 

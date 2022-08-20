@@ -203,7 +203,7 @@ Currently a public beta testing version is available at:
 
 The dev-team merges changes from the `prod-staging` branch to `prod-current` when they release changes. The top commit should be what you see live on the site.
 
-You can identify the exact version deployed by visiting the build and deployment logs available in the status section. Alternatively you can also ping us in the [contributors chat room](https://chat.freecodecamp.org/channel/contributors) for a confirmation.
+You can identify the exact version deployed by visiting the build and deployment logs available in the status section. Alternatively you can also ping us in the [contributors chat room](https://discord.gg/PRyKn3Vbay) for a confirmation.
 
 ### Known Limitations
 
@@ -263,7 +263,7 @@ brew install azure-cli
 az login
 ```
 
-> **Get the list of VM names and P addresses:**
+> **Get the list of VM names and IP addresses:**
 
 ```
 az vm list-ip-addresses --output table
@@ -455,7 +455,7 @@ Provisioning VMs with the Code
 2. Update `npm` and install PM2 and setup `logrotate` and startup on boot
 
    ```console
-   npm i -g npm@6
+   npm i -g npm@8
    npm i -g pm2
    pm2 install pm2-logrotate
    pm2 startup
@@ -482,14 +482,14 @@ Provisioning VMs with the Code
 7. Build the server
 
    ```console
-   npm run ensure-env && npm run build:curriculum && npm run build:server
+   npm run create:config && npm run build:curriculum && npm run build:server
    ```
 
 8. Start Instances
 
    ```console
    cd api-server
-   pm2 start ./lib/production-start.js -i max --max-memory-restart 600M --name org
+   pm2 reload ecosystem.config.js
    ```
 
 ### Logging and Monitoring
@@ -528,7 +528,7 @@ npm ci
 3. Build the server
 
 ```console
-npm run ensure-env && npm run build:curriculum && npm run build:server
+npm run create:config && npm run build:curriculum && npm run build:server
 ```
 
 4. Start Instances
@@ -563,7 +563,7 @@ Provisioning VMs with the Code
 2. Update `npm` and install PM2 and setup `logrotate` and startup on boot
 
    ```console
-   npm i -g npm@6
+   npm i -g npm@8
    npm i -g pm2
    npm install -g serve
    pm2 install pm2-logrotate
@@ -815,6 +815,20 @@ deployed on each instance like so:
 
    Select yes (y) to remove everything that is not in use. This will remove all stopped containers, all networks and volumes not used by at least one container, and all dangling images and build caches.
 
+## Work on Contributor Tools
+
+### Deploy updates
+
+ssh into the VM (hosted on Digital Ocean).
+
+```console
+cd tools
+git pull origin master
+npm ci
+npm run build
+pm2 restart contribute-app
+```
+
 ## Updating Node.js versions on VMs
 
 List currently installed node & npm versions
@@ -830,7 +844,7 @@ nvm ls
 Install the latest Node.js LTS, and reinstall any global packages
 
 ```console
-nvm install 'lts/*' --reinstall-packages-from=default
+nvm install --lts --reinstall-packages-from=default
 ```
 
 Verify installed packages
@@ -839,10 +853,10 @@ Verify installed packages
 npm ls -g --depth=0
 ```
 
-Alias the `default` Node.js version to the current LTS
+Alias the `default` Node.js version to the current LTS (pinned to latest major version)
 
 ```console
-nvm alias default lts/*
+nvm alias default 16
 ```
 
 (Optional) Uninstall old versions
@@ -851,8 +865,22 @@ nvm alias default lts/*
 nvm uninstall <version>
 ```
 
-> [!WARNING]
+> [!ATTENTION]
+> For client applications, the shell script can't be resurrected between Node.js versions with `pm2 resurrect`. Deploy processes from scratch instead. This should become nicer when we move to a docker based setup.
+>
 > If using PM2 for processes you would also need to bring up the applications and save the process list for automatic recovery on restarts.
+
+Get the uninstall instructions/commands with the `unstartup` command and use the output to remove the systemctl services
+
+```console
+pm2 unstartup
+```
+
+Get the install instructions/commands with the `startup` command and use the output to add the systemctl services
+
+```console
+pm2 startup
+```
 
 Quick commands for PM2 to list, resurrect saved processes, etc.
 
@@ -871,9 +899,6 @@ pm2 save
 ```console
 pm2 logs
 ```
-
-> [!ATTENTION]
-> For client applications, the shell script can't be resurrected between Node.js versions with `pm2 resurrect`. Deploy processes from scratch instead. This should become nicer when we move to a docker based setup.
 
 ## Installing and Updating Azure Pipeline Agents
 

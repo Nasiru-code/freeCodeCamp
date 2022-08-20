@@ -1,7 +1,7 @@
 ---
 id: 5900f3c11000cf542c50fed3
 title: 'Problem 84: Probabilidades no Monopoly'
-challengeType: 5
+challengeType: 1
 forumTopicId: 302198
 dashedName: problem-84-monopoly-odds
 ---
@@ -120,9 +120,9 @@ O centro deste problema diz respeito à possibilidade de visitar um determinado 
 
 Começando em GO e numerando os quadrados sequencialmente, de 00 a 39, podemos concatenar esses números de dois algarismos para produzir strings que correspondem a conjuntos de quadrados.
 
-Estatisticamente, pode ser mostrado que os três quadrados mais populares, em ordem, são JAIL (6,24%) = Quadrado 10, E3 (3,18%) = Quadrado 24 e GO (3,09%) = Quadrado 00. Então, esses três quadrados mais populares podem ser listados com a string modal de seis dígitos `102400`.
+Estatisticamente, pode ser mostrado que os três quadrados mais populares, em ordem, são JAIL (6,24%) = Quadrado 10, E3 (3,18%) = Quadrado 24 e GO (3,09%) = Quadrado 00. Então, esses três quadrados mais populares podem ser listados com a string modal de seis algarismos `102400`.
 
-Se, ao invés de usar dois dados de 6 lados, dois dados de `n` lados forem usados, encontre a string modal de 6 dígitos.
+Se, ao invés de usar dois dados de 6 lados, dois dados de `n` lados forem usados, encontre a string modal de 6 algarismos.
 
 # --hints--
 

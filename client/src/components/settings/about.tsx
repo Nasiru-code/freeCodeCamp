@@ -8,11 +8,13 @@ import {
 import React, { Component } from 'react';
 
 import { TFunction, withTranslation } from 'react-i18next';
+import isURL from 'validator/lib/isURL';
 import { FullWidthRow, Spacer } from '../helpers';
 import BlockSaveButton from '../helpers/form/block-save-button';
 import SoundSettings from './sound';
-import ThemeSettings from './theme';
+import ThemeSettings, { Themes } from './theme';
 import UsernameSettings from './username';
+import KeyboardShortcutsSettings from './keyboard-shortcuts';
 
 type FormValues = {
   name: string;
@@ -23,16 +25,18 @@ type FormValues = {
 
 type AboutProps = {
   about: string;
-  currentTheme: string;
+  currentTheme: Themes;
   location: string;
   name: string;
   picture: string;
   points: number;
   sound: boolean;
+  keyboardShortcuts: boolean;
   submitNewAbout: (formValues: FormValues) => void;
   t: TFunction;
-  toggleNightMode: (theme: string) => void;
+  toggleNightMode: (theme: Themes) => void;
   toggleSoundMode: (sound: boolean) => void;
+  toggleKeyboardShortcuts: (keyboardShortcuts: boolean) => void;
   username: string;
 };
 
@@ -149,8 +153,15 @@ class AboutSettings extends Component<AboutProps, AboutState> {
 
   handlePictureChange = (e: React.FormEvent<HTMLInputElement>) => {
     const value = (e.target as HTMLInputElement).value.slice(0);
-    this.validationImage.src = value;
-    return this.setState(state => ({
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    if (isURL(value, { require_protocol: true })) {
+      this.validationImage.src = encodeURI(value);
+    } else {
+      this.setState({
+        isPictureUrlValid: false
+      });
+    }
+    this.setState(state => ({
       formValues: {
         ...state.formValues,
         picture: value
@@ -190,10 +201,12 @@ class AboutSettings extends Component<AboutProps, AboutState> {
     const {
       currentTheme,
       sound,
+      keyboardShortcuts,
       username,
       t,
       toggleNightMode,
-      toggleSoundMode
+      toggleSoundMode,
+      toggleKeyboardShortcuts
     } = this.props;
     return (
       <div className='about-settings'>
@@ -252,6 +265,10 @@ class AboutSettings extends Component<AboutProps, AboutState> {
             toggleNightMode={toggleNightMode}
           />
           <SoundSettings sound={sound} toggleSoundMode={toggleSoundMode} />
+          <KeyboardShortcutsSettings
+            keyboardShortcuts={keyboardShortcuts}
+            toggleKeyboardShortcuts={toggleKeyboardShortcuts}
+          />
         </FullWidthRow>
       </div>
     );

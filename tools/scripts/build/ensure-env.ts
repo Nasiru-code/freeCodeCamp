@@ -3,35 +3,32 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import { availableLangs } from '../../../config/i18n/all-langs';
-
-// eslint-disable-next-line
-const env = require('../../../config/read-env.js');
+import env from '../../../config/read-env';
 
 const globalConfigPath = path.resolve(__dirname, '../../../config');
 
 const { FREECODECAMP_NODE_ENV } = process.env;
 
 function checkClientLocale() {
+  if (!process.env.CLIENT_LOCALE) throw Error('CLIENT_LOCALE is not set');
   if (!availableLangs.client.includes(process.env.CLIENT_LOCALE)) {
-    /* eslint-disable @typescript-eslint/restrict-template-expressions */
     throw Error(`
 
-      CLIENT_LOCALE, ${process.env.CLIENT_LOCALE}, is not an available language in config/i18n/all-langs.js
+      CLIENT_LOCALE, ${process.env.CLIENT_LOCALE}, is not an available language in config/i18n/all-langs.ts
 
       `);
-    /* eslint-enable @typescript-eslint/restrict-template-expressions */
   }
 }
 
 function checkCurriculumLocale() {
+  if (!process.env.CURRICULUM_LOCALE)
+    throw Error('CURRICULUM_LOCALE is not set');
   if (!availableLangs.curriculum.includes(process.env.CURRICULUM_LOCALE)) {
-    /* eslint-disable @typescript-eslint/restrict-template-expressions */
     throw Error(`
 
-      CURRICULUM_LOCALE, ${process.env.CURRICULUM_LOCALE}, is not an available language in config/i18n/all-langs.js
+      CURRICULUM_LOCALE, ${process.env.CURRICULUM_LOCALE}, is not an available language in config/i18n/all-langs.ts
 
       `);
-    /* eslint-enable @typescript-eslint/restrict-template-expressions */
   }
 }
 
@@ -49,41 +46,45 @@ if (FREECODECAMP_NODE_ENV !== 'development') {
     'showLocaleDropdownMenu',
     'deploymentEnv',
     'environment',
-    'showUpcomingChanges'
+    'showUpcomingChanges',
+    'showNewCurriculum'
   ];
   const searchKeys = ['algoliaAppId', 'algoliaAPIKey'];
   const donationKeys = ['stripePublicKey', 'paypalClientId', 'patreonClientId'];
+  const loggingKeys = ['sentryClientDSN'];
 
   const expectedVariables = locationKeys.concat(
     deploymentKeys,
     searchKeys,
-    donationKeys
+    donationKeys,
+    loggingKeys
   );
-  const receivedvariables = Object.keys(env);
-  expectedVariables.sort();
-  receivedvariables.sort();
-  if (expectedVariables.length !== receivedvariables.length) {
-    /* eslint-disable @typescript-eslint/restrict-template-expressions */
-    throw Error(`
+  const actualVariables = Object.keys(env as Record<string, unknown>);
+  if (expectedVariables.length !== actualVariables.length) {
+    const extraVariables = actualVariables
+      .filter(x => !expectedVariables.includes(x))
+      .toString();
+    const missingVariables = expectedVariables
+      .filter(x => !actualVariables.includes(x))
+      .toString();
 
-    Env. variable validation failed. Make sure these keys are used and configured.
+    throw Error(
+      `
 
-    Mismatch:
-    ${expectedVariables
-      .filter(expected => !receivedvariables.includes(expected))
-      .concat(
-        receivedvariables.filter(
-          received => !expectedVariables.includes(received)
-        )
-      )}
+    Env. variable validation failed. Make sure only expected variables are used and configured.
 
-    `);
-    /* eslint-enable @typescript-eslint/restrict-template-expressions */
+    ` +
+        (extraVariables ? `Extra variables: ${extraVariables}\n` : '') +
+        (missingVariables ? `Missing variables: ${missingVariables}` : '')
+    );
   }
 
   for (const key of expectedVariables) {
-    /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-    if (typeof env[key] === 'undefined' || env[key] === null) {
+    // Since we may need to disable the sentry DSN (if we're getting too many
+    // errors), this is the one key we don't check is set.
+    if (key === 'sentryClientDSN') continue;
+    const envVal = env[key as keyof typeof env];
+    if (typeof envVal === 'undefined' || envVal === null) {
       throw Error(`
 
       Env. variable ${key} is missing, build cannot continue
@@ -112,13 +113,18 @@ if (FREECODECAMP_NODE_ENV !== 'development') {
   checkClientLocale();
   checkCurriculumLocale();
   if (fs.existsSync(`${globalConfigPath}/env.json`)) {
-    // eslint-disable-next-line
-    const { showUpcomingChanges } = require(`${globalConfigPath}/env.json`);
-    if (env['showUpcomingChanges'] !== showUpcomingChanges) {
+    /* eslint-disable @typescript-eslint/no-var-requires, @typescript-eslint/no-unsafe-assignment */
+    const {
+      showNewCurriculum,
+      showUpcomingChanges
+    } = require(`${globalConfigPath}/env.json`);
+    /* eslint-enable @typescript-eslint/no-var-requires, @typescript-eslint/no-unsafe-assignment */
+    if (
+      env['showUpcomingChanges'] !== showUpcomingChanges ||
+      env['showNewCurriculum'] !== showNewCurriculum
+    ) {
       /* eslint-enable @typescript-eslint/no-unsafe-member-access */
-      console.log(
-        'SHOW_UPCOMING_CHANGES value has changed, cleaning client cache.'
-      );
+      console.log('Feature flags have been changed, cleaning client cache.');
       const child = spawn('npm', ['run', 'clean:client']);
       child.stdout.setEncoding('utf8');
       child.stdout.on('data', function (data) {

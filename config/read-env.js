@@ -31,7 +31,9 @@ const {
   PAYPAL_CLIENT_ID: paypalClientId,
   PATREON_CLIENT_ID: patreonClientId,
   DEPLOYMENT_ENV: deploymentEnv,
-  SHOW_UPCOMING_CHANGES: showUpcomingChanges
+  SENTRY_CLIENT_DSN: sentryClientDSN,
+  SHOW_UPCOMING_CHANGES: showUpcomingChanges,
+  SHOW_NEW_CURRICULUM: showNewCurriculum
 } = process.env;
 
 const locations = {
@@ -70,5 +72,10 @@ module.exports = Object.assign(locations, {
     !patreonClientId || patreonClientId === 'id_from_patreon_dashboard'
       ? null
       : patreonClientId,
-  showUpcomingChanges: showUpcomingChanges === 'true'
+  sentryClientDSN:
+    !sentryClientDSN || sentryClientDSN === 'dsn_from_sentry_dashboard'
+      ? null
+      : sentryClientDSN,
+  showUpcomingChanges: showUpcomingChanges === 'true',
+  showNewCurriculum: showNewCurriculum === 'true'
 });

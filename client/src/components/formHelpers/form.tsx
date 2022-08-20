@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FormEvent } from 'react';
 import { Form } from 'react-final-form';
 
 import {
@@ -19,12 +19,12 @@ export type FormOptions = {
   placeholders?: { [key: string]: string };
 };
 
-type FormProps = {
+export type FormProps = {
   buttonText?: string;
   enableSubmit?: boolean;
   formFields: { name: string; label: string }[];
   hideButton?: boolean;
-  id?: string;
+  id: string;
   initialValues?: Record<string, unknown>;
   options: FormOptions;
   submit: (values: ValidatedValues, ...args: unknown[]) => void;
@@ -49,9 +49,8 @@ function DynamicForm({
     >
       {({ handleSubmit, pristine, error }) => (
         <form
-          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
           id={`dynamic-${id}`}
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit as (e: FormEvent) => void}
           style={{ width: '100%' }}
         >
           <FormFields formFields={formFields} options={options} />

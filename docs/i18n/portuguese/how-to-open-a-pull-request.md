@@ -14,7 +14,7 @@ Recomendamos usar [título e mensagens convencionais](https://www.conventionalco
 > 
 > `fix(learn): testes para o desafio de ciclo do...while`
 
-Quando estiver abrindo um Pull Request (PR), você pode usar a referência abaixo para determinar o tipo, escopo (opcional) e a descrição.
+Sempre que abrir um Pull Request (PR), você pode usar a referência abaixo para determinar o tipo, escopo (opcional) e a descrição.
 
 **Tipo:**
 
@@ -38,13 +38,13 @@ Alguns exemplos de bons títulos de PRs seriam:
 - `fix(a11y): contraste melhorado da barra de pesquisa`
 - `feat: adicionar mais testes aos desafios de HTML e CSS`
 - `fix(api,cliente): prevenir erros CORS no envio do formulário`
-- `docs(i18n): tradução para chinês da configuração local`
+- `docs(i18n): correção dos links para relativos em vez de absolutos`
 
 ## Propondo um Pull Request
 
 1. Uma vez que as edições tenham sido realizadas, será solicitado que você crie um pull request na página do GitHub do seu fork.
 
-   ![Imagem - Comparar o prompt de pull request no GitHub](https://contribute.freecodecamp.org/images/github/compare-pull-request-prompt.png)
+   ![Imagem - Comparar e solicitar o pull request no GitHub](https://contribute.freecodecamp.org/images/github/compare-pull-request-prompt.png)
 
 2. Por padrão, todos os pull requests devem ser feitos no repositório principal do freeCodeCamp, branch `main`.
 
@@ -54,7 +54,7 @@ Alguns exemplos de bons títulos de PRs seriam:
 
 3. Envie o pull request da sua branch para a branch `main` do freeCodeCamp.
 
-4. No corpo de seu PR, inclua um resumo mais detalhado das alterações feitas e o motivo.
+4. Inclua um resumo mais detalhado das alterações feitas e como suas alterações são úteis no corpo do PR.
 
    - Será apresentado um modelo de pull request. É uma checklist que você deve seguir antes de abrir o pull request.
 
@@ -72,11 +72,11 @@ Alguns exemplos de bons títulos de PRs seriam:
 
 ## Comentários nos pull requests
 
-> Parabéns! :tada: por fazer um PR e muito obrigado(a) por contribuir.
+> :tada: Parabéns por fazer um PR e muito obrigado(a) por contribuir.
 
 Nossos moderadores vão dar uma olhada e deixar um comentário para você. Seja paciente com os outros moderadores e respeite o tempo deles. Todos os pull requests são revisados no tempo devido.
 
-E como sempre, fique à vontade em perguntar na [categoria 'Contribuidores' do fórum](https://forum.freecodecamp.org/c/contributors) ou [no chat dos contribuidores](https://chat.freecodecamp.org/channel/contributors).
+E como sempre, fique à vontade em perguntar na [categoria 'Contribuidores' do fórum](https://forum.freecodecamp.org/c/contributors) ou [no chat dos contribuidores](https://discord.gg/PRyKn3Vbay).
 
 > [!TIP] Se você vai contribuir com mais pull requests, recomendamos ler as diretrizes sobre [fazer mudanças e sincronizá-las](how-to-setup-freecodecamp-locally.md#making-changes-locally) para evitar o apagamento de seu fork.
 

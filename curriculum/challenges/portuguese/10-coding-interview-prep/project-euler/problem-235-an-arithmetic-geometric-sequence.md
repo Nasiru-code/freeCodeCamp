@@ -1,7 +1,7 @@
 ---
 id: 5900f4571000cf542c50ff6a
 title: 'Problema 235: Uma sequência geométrica aritmética'
-challengeType: 5
+challengeType: 1
 forumTopicId: 301879
 dashedName: problem-235-an-arithmetic-geometric-sequence
 ---
@@ -14,7 +14,7 @@ Considere $s(n) = \sum_{k=1 \ldots n} u(k)$.
 
 Encontre o valor de $r$ para o qual $s(5000) = -600.000.000.000$.
 
-Dê sua resposta arredondada para 12 casas antes da vírgula.
+Dê sua resposta arredondada para 12 casas depois da vírgula.
 
 # --hints--
 

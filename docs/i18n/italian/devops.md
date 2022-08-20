@@ -197,7 +197,7 @@ Attualmente una versione beta test pubblica è disponibile al seguente indirizzo
 
 Il team di sviluppo fa un merge dei cambiamenti dal ramo `prod-staging` a `prod-current` quando rilascia dei cambiamenti. Il commit superiore dovrebbe essere quello che si vede live sul sito.
 
-È possibile identificare la versione esatta distribuita visitando i registri di compilazione e distribuzione disponibili nella sezione stato. In alternativa puoi scriverci nella [chat room dei contributori](https://chat.freecodecamp.org/channel/contributors) per una conferma.
+È possibile identificare la versione esatta distribuita visitando i registri di compilazione e distribuzione disponibili nella sezione stato. In alternativa puoi scriverci nella [chat room dei contributori](https://discord.gg/PRyKn3Vbay) per una conferma.
 
 ### Limitazioni note
 
@@ -432,7 +432,7 @@ Fare il provisioning delle VM con il codice
 2. Aggiorna `npm` e installa PM2 e fai il setup di `logrotate` e avvio all'accensione
 
    ```console
-   npm i -g npm@6
+   npm i -g npm@8
    npm i -g pm2
    pm2 install pm2-logrotate
    pm2 startup
@@ -459,14 +459,14 @@ Fare il provisioning delle VM con il codice
 7. Fai il build del server
 
    ```console
-   npm run ensure-env && npm run build:curriculum && npm run build:server
+   npm run create:config && npm run build:curriculum && npm run build:server
    ```
 
 8. Avvia le istanze
 
    ```console
    cd api-server
-   pm2 start ./lib/production-start.js -i max --max-memory-restart 600M --name org
+   pm2 reload ecosystem.config.js
    ```
 
 ### Log e monitoraggio
@@ -502,7 +502,7 @@ npm ci
 3. Fai il build del server
 
 ```console
-npm run ensure-env && npm run build:curriculum && npm run build:server
+npm run create:config && npm run build:curriculum && npm run build:server
 ```
 
 4. Avvia le istanze
@@ -536,7 +536,7 @@ Fare provisioning delle VM con il codice
 2. Aggiorna `npm` e installa PM2 e fai il setup di `logrotate` e avvio all'accensione
 
    ```console
-   npm i -g npm@6
+   npm i -g npm@8
    npm i -g pm2
    npm install -g serve
    pm2 install pm2-logrotate
@@ -779,6 +779,20 @@ Le modifiche di configurazione alle nostre istanze NGINX sono mantenute su GitHu
 
    Seleziona yes (y) per rimuovere tutto quello che non è in uso. Questo rimuoverà tutti i contenitori che sono stati arrestati, tutti i network e volumi che non sono utilizzati da almeno un container, e le cache di immagini e build scollegate.
 
+## Lavorare sugli strumenti dei contributori
+
+### Distribuire gli update
+
+Fai ssh nella VM (hosted su Digital Ocean).
+
+```console
+cd tools
+git pull origin master
+npm ci
+npm run build
+pm2 restart contribute-app
+```
+
 ## Aggiornare la versione di Node.js sulle VM
 
 Visualizza le versioni installate di node & npm
@@ -794,7 +808,7 @@ nvm ls
 Installa l'ultima versione di Node.js LTC, e reinstalla i pacchetti globali
 
 ```console
-nvm install 'lts/*' --reinstall-packages-from=default
+nvm install --lts --reinstall-packages-from=default
 ```
 
 Verifica i pacchetti installati
@@ -803,10 +817,10 @@ Verifica i pacchetti installati
 npm ls -g --depth=0
 ```
 
-Usa l'alias `default` della versione di Node.js all'attuale LTS
+Dai l'alias di `default` alla versione corrente LTS di Node.js (bloccata all'ultima versione maggiore)
 
 ```console
-nvm alias default lts/*
+nvm alias default 16
 ```
 
 (Facoltativo) Disinstalla vecchie versioni
@@ -815,7 +829,21 @@ nvm alias default lts/*
 nvm uninstall <version>
 ```
 
-> [!WARNING] Se usi PM2 per i processi avrai anche bisogno di vedere le applicazioni e salvare la lista dei processi per il recovery automatico al riavvio.
+> [!ATTENTION] Per applicazioni client, lo script della shell non può essere fatto risorgere tra versioni di Node.js con `pm2 resurrect`. Fai il deploy dei processi da zero. Questo dovrebbe migliorare quando useremo un setup basato su docker.
+> 
+> Se stai usando PM2 per processi dovresti anche richiamare le applicazione e salvare la lista di processo per un recupero automatico al riavvio.
+
+Ottieni le istruzioni/comandi di deinstallazione con il comando `unstartup` e usa l'output per rimuovere i servizi systemctl
+
+```console
+pm2 unstartup
+```
+
+Ottieni le istruzioni/comandi di installazione con il comando `startup` e usa l'output per aggiungere i servizi systemctl
+
+```console
+pm2 startup
+```
 
 Comandi veloci per PM2 per elencare, far ripartire processi salvati, ecc.
 
@@ -834,8 +862,6 @@ pm2 save
 ```console
 pm2 logs
 ```
-
-> [!ATTENTION] Per applicazioni client, lo script della shell non può essere fatto risorgere tra versioni di Node.js con `pm2 resurrect`. Fai il deploy dei processi da zero. Questo dovrebbe migliorare quando useremo un setup basato su docker.
 
 ## Installare e aggiornare Azure Pipeline Agent
 
@@ -924,12 +950,12 @@ Usiamo uno [strumento CLI](https://github.com/freecodecamp/sendgrid-email-blast)
 
 Utilizziamo un [tema](https://github.com/freeCodeCamp/news-theme) personalizzato per la nostra pubblicazione. L'aggiunta delle seguenti modifiche al tema consente l'aggiunta di nuove lingue.
 
-1. Includere una espressione else if per il nuovo [codice ISO della lingua](https://www.loc.gov/standards/iso639-2/php/code_list.php) in [setup-local.js](https://github.com/freeCodeCamp/news-theme/blob/main/assets/config/setup-locale.js)
-2. Crea una cartella di configurazione iniziale duplicando la cartella [assets/config/en](https://github.com/freeCodeCamp/news-theme/tree/main/assets/config/en) e cambiando il suo nome con il codice della nuova lingua. (en—> es per spagnolo)
-3. Dentro la nuova cartella, cambia i nomi delle variabili in main.js e footer.js con il codice della nuova lingua (enMain —> esMain per spagnolo)
-4. Duplica [locals/en.json](https://github.com/freeCodeCamp/news-theme/blob/main/locales/en.json) e rinominalo con il codice della nuova lingua.
-5. In [partials/i18n.hbs](https://github.com/freeCodeCamp/news-theme/blob/main/partials/i18n.hbs), aggiungi gli script per i file config appena creati.
-6. Aggiungi lo script day.js della lingua da [cdnjs](https://cdnjs.com/libraries/dayjs/1.10.4) a [freecodecamp cdn](https://github.com/freeCodeCamp/cdn/tree/main/build/news-assets/dayjs/1.10.4/locale)
+1. Includere una espressione `else if` per il nuovo [codice ISO della lingua](https://www.loc.gov/standards/iso639-2/php/code_list.php) in [`setup-local.js`](https://github.com/freeCodeCamp/news-theme/blob/main/assets/config/setup-locale.js)
+2. Crea una cartella di configurazione iniziale duplicando la cartella [`assets/config/en`](https://github.com/freeCodeCamp/news-theme/tree/main/assets/config/en) e cambiando il suo nome con il codice della nuova lingua. (`en` —> `es` per Spagnolo)
+3. Dentro la nuova cartella, cambia i nomi delle variabili in `main.js` e `footer.js` con il codice della nuova lingua (`enMain` —> `esMain` per spagnolo)
+4. Duplica [`locals/en.json`](https://github.com/freeCodeCamp/news-theme/blob/main/locales/en.json) e rinominalo con il codice della nuova lingua.
+5. In [`partials/i18n.hbs`](https://github.com/freeCodeCamp/news-theme/blob/main/partials/i18n.hbs), aggiungi gli script per i file config appena creati.
+6. Aggiungi lo script `day.js` della lingua da [cdnjs](https://cdnjs.com/libraries/dayjs/1.10.4) a [freecodecamp CDN](https://github.com/freeCodeCamp/cdn/tree/main/build/news-assets/dayjs/1.10.4/locale)
 
 ### Modifiche alla dashboard di Ghost
 

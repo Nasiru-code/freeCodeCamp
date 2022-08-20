@@ -1,0 +1,41 @@
+- **Erste Schritte**
+  - [Einführung](index.md "Zur FreeCodeCamp.org Community beitragen")
+  - [Häufig gestellte Fragen](FAQ.md)
+  - [Eine Schwachstelle melden](security.md)
+- **Mitwirkung an der Übersetzung**
+  - [Helfe bei der Übersetzung von Ressourcen](how-to-translate-files.md)
+  - [Helfe beim Korrekturlesen von Übersetzungen](how-to-proofread-files.md)
+- **Mitwirkung am Code**
+  - [freeCodeCamp lokal einrichten](how-to-setup-freecodecamp-locally.md)
+  - [Work on mobile app](how-to-setup-freecodecamp-mobile-app-locally.md)
+  - [Follow coding best practices](codebase-best-practices.md)
+  - [Open a pull request](how-to-open-a-pull-request.md)
+  - [Work on coding challenges](how-to-work-on-coding-challenges.md)
+  - [Work on practice projects](how-to-work-on-practice-projects.md)
+  - [Work on tutorials with CodeRoad](how-to-work-on-tutorials-that-use-coderoad.md)
+  - [Work on localized client web app](how-to-work-on-localized-client-webapp.md)
+  - [Work on Cypress tests](how-to-add-cypress-tests.md)
+  - [Work on video challenges](how-to-help-with-video-challenges.md)
+  - [Work on documentation](how-to-work-on-the-docs-theme.md)
+  - [Work on the component library](how-to-work-on-the-component-library.md)
+- **Zusätzliche Leitfäden**
+  - [Übersetzungen lokal testen](how-to-test-translations-locally.md)
+  - [Verstehe die Dateistruktur des Studienplans](curriculum-file-structure.md)
+  - [Ausgehende Emails lokal debuggen](how-to-catch-outgoing-emails-locally.md)
+  - [freeCodeCamp auf Windows einrichten (WSL)](how-to-setup-wsl.md)
+  - [Benutzer-Token Workflow](user-token-workflow.md)
+
+---
+
+- **Handbücher** (für Mitarbeiter & Moderatoren)
+  - [Moderatorenhandbuch](moderator-handbook.md)
+  - [Language Lead Handbook](language-lead-handbook.md)
+  - [DevOps Handbook](devops.md)
+  - [Courses VSCode Extension](courses-vscode-extension.md)
+
+---
+
+- **Unsere Community**
+  - [**GitHub**](https://github.com/freecodecamp/freecodecamp)
+  - [**Discourse Forum**](https://freecodecamp.org/forum/c/contributors)
+  - [**Chatserver**](https://discord.gg/PRyKn3Vbay)

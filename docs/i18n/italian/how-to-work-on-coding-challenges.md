@@ -10,7 +10,7 @@ Nota che per la versione 7.0 del curriculum freeCodeCamp, ci stiamo muovendo ver
 
 La creazione di queste sfide richiede un'immensa creatività e attenzione ai dettagli. C'è un sacco di aiuto disponibile. Avrai il supporto di un intero team di collaboratori a cui puoi rimbalzare le idee e mostrare le tue sfide.
 
-E come sempre, poni liberamente le tue domande [nella categoria 'Contributors' sul nostro forum](https://forum.freecodecamp.org/c/contributors) o [nella chat room per i contributori](https://chat.freecodecamp.org/channel/contributors).
+E come sempre, poni liberamente le tue domande [nella categoria 'Contributors' sul nostro forum](https://forum.freecodecamp.org/c/contributors) o [nella chat room per i contributori](https://discord.gg/PRyKn3Vbay).
 
 Con il tuo aiuto possiamo creare un curriculum interattivo di programmazione che aiuterà milioni di persone a imparare a programmare per gli anni a venire.
 
@@ -64,11 +64,18 @@ I test da eseguire sul codice scritto dall'utente, in coppie di testo markdown e
 Codice per test uno
 ```
 
-Altre istruzioni in sintassi markdown
+Se vuoi output dinamico basato sul codice dell'utente --fcc-expected-- e --fcc-actual-- saranno sostituiti con i valori aspettati e i valori veri dell'asserzione del test. Fai attenzione se hai più di una asserzione, visto che la prima asserzione fallita determinerà i valori di --fcc-expected-- e fcc-actual--.
 
 ```js
-Altro codice
+assert.equal(
+  'this will replace --fcc-actual--',
+  'this will replace --fcc-expected--'
+);
 ```
+
+# --notes--
+
+Ulteriori informazioni per una sfida, in markdown
 
 # --seed--
 
@@ -131,7 +138,7 @@ Le soluzioni sono usate dai test CI per assicurarsi che i cambiamenti alla sezio
 
 # --question--
 
-Questi campi sono usati per le domande a scelta multipla delle sfide di Python.
+Questi campi sono usati attualmente per le domande a scelta multipla nelle sfide di Python.
 
 ## --text--
 
@@ -139,7 +146,7 @@ Il testo della domanda va qui.
 
 ## --answers--
 
-Risposa 1
+Risposta 1
 
 ---
 
@@ -199,7 +206,7 @@ Dare un nome alle cose è difficile. Lo abbiamo reso più semplice dando dei lim
 
 Tutti i titoli delle sfide devono essere espliciti e seguire questo schema:
 
-\[verbo\]\[complemento oggetto\]
+\[verb\]\[clausola oggetto\]
 
 Ecco alcuni esempi di nomi di sfide:
 

@@ -13,17 +13,27 @@ import {
   take,
   cancel
 } from 'redux-saga/effects';
-import store from 'store';
 
+import { playTone } from '../../../utils/tone';
 import {
   buildChallenge,
   canBuildChallenge,
   getTestRunner,
   challengeHasPreview,
   updatePreview,
+  updateProjectPreview,
   isJavaScriptChallenge,
   isLoopProtected
 } from '../utils/build';
+import { challengeTypes } from '../../../../utils/challenge-types';
+import { createFlashMessage } from '../../../components/Flash/redux';
+import { FlashMessages } from '../../../components/Flash/redux/flash-messages';
+import {
+  standardizeRequestBody,
+  getStringSizeInBytes,
+  bodySizeFits,
+  MAX_BODY_SIZE
+} from '../../../utils/challenge-request-helpers';
 import { actionTypes } from './action-types';
 import {
   challengeDataSelector,
@@ -44,7 +54,27 @@ import {
 const previewTimeout = 2500;
 let previewTask;
 
+// when 'run tests' is clicked, do this first
 export function* executeCancellableChallengeSaga(payload) {
+  const { challengeType, id } = yield select(challengeMetaSelector);
+  const { challengeFiles } = yield select(challengeDataSelector);
+
+  // if multifileCertProject, see if body/code size is submittable
+  if (challengeType === challengeTypes.multifileCertProject) {
+    const body = standardizeRequestBody({ id, challengeFiles, challengeType });
+    const bodySizeInBytes = getStringSizeInBytes(body);
+
+    if (!bodySizeFits(bodySizeInBytes)) {
+      return yield put(
+        createFlashMessage({
+          type: 'danger',
+          message: FlashMessages.ChallengeSubmitTooBig,
+          variables: { 'max-size': MAX_BODY_SIZE, 'user-size': bodySizeInBytes }
+        })
+      );
+    }
+  }
+
   if (previewTask) {
     yield cancel(previewTask);
   }
@@ -85,7 +115,8 @@ export function* executeChallengeSaga({ payload }) {
     const protect = isLoopProtected(challengeMeta);
     const buildData = yield buildChallengeData(challengeData, {
       preview: false,
-      protect
+      protect,
+      usesTestRunner: true
     });
     const document = yield getContext('document');
     const testRunner = yield call(
@@ -98,17 +129,10 @@ export function* executeChallengeSaga({ payload }) {
     yield put(updateTests(testResults));
 
     const challengeComplete = testResults.every(test => test.pass && !test.err);
-    const playSound = store.get('fcc-sound');
-    let player;
-    if (playSound) {
-      void import('tone').then(tone => {
-        player = new tone.Player(
-          challengeComplete && payload?.showCompletionModal
-            ? 'https://campfire-mode.freecodecamp.org/chal-comp.mp3'
-            : 'https://campfire-mode.freecodecamp.org/try-again.mp3'
-        ).toDestination();
-        player.autostart = true;
-      });
+    if (challengeComplete) {
+      playTone('tests-completed');
+    } else {
+      playTone('tests-failed');
     }
     if (challengeComplete && payload?.showCompletionModal) {
       yield put(openModal('completion'));
@@ -167,7 +191,11 @@ function* executeTests(testRunner, tests, testTimeout = 5000) {
         throw err;
       }
     } catch (err) {
-      newTest.message = text;
+      const { actual, expected } = err;
+
+      newTest.message = text
+        .replace('--fcc-expected--', expected)
+        .replace('--fcc-actual--', actual);
       if (err === 'timeout') {
         newTest.err = 'Test timed out';
         newTest.message = `${newTest.message} (${newTest.err})`;
@@ -226,13 +254,31 @@ function* previewChallengeSaga({ flushLogs = true } = {}) {
       }
     }
   } catch (err) {
-    if (err === 'timeout') {
+    if (err[0] === 'timeout') {
       // TODO: translate the error
       // eslint-disable-next-line no-ex-assign
-      err = `The code you have written is taking longer than the ${previewTimeout}ms our challenges allow. You may have created an infinite loop or need to write a more efficient algorithm`;
+      err[0] = `The code you have written is taking longer than the ${previewTimeout}ms our challenges allow. You may have created an infinite loop or need to write a more efficient algorithm`;
     }
     console.log(err);
     yield put(updateConsole(escape(err)));
+  }
+}
+
+function* previewProjectSolutionSaga({ payload }) {
+  if (!payload) return;
+  const { showProjectPreview, challengeData } = payload;
+  if (!showProjectPreview) return;
+
+  try {
+    if (canBuildChallenge(challengeData)) {
+      const buildData = yield buildChallengeData(challengeData);
+      if (challengeHasPreview(challengeData)) {
+        const document = yield getContext('document');
+        yield call(updateProjectPreview, buildData, document);
+      }
+    }
+  } catch (err) {
+    console.log(err);
   }
 }
 
@@ -247,6 +293,7 @@ export function createExecuteChallengeSaga(types) {
         types.resetChallenge
       ],
       executeCancellablePreviewSaga
-    )
+    ),
+    takeLatest(types.projectPreviewMounted, previewProjectSolutionSaga)
   ];
 }

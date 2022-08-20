@@ -7,13 +7,14 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { createSelector } from 'reselect';
 
 import envData from '../../../config/env.json';
-import { langCodes } from '../../../config/i18n/all-langs';
+import { getLangCode } from '../../../config/i18n/all-langs';
 import FreeCodeCampLogo from '../assets/icons/FreeCodeCamp-logo';
-import DonateForm from '../components/Donation/DonateForm';
+import DonateForm from '../components/Donation/donate-form';
 
 import { createFlashMessage } from '../components/Flash/redux';
 import { Loader, Spacer } from '../components/helpers';
 import RedirectHome from '../components/redirect-home';
+import { Themes } from '../components/settings/theme';
 import {
   showCertSelector,
   showCertFetchStateSelector,
@@ -25,7 +26,7 @@ import {
   userByNameSelector,
   fetchProfileForUser
 } from '../redux';
-import { User } from '../redux/prop-types';
+import { UserFetchState, User } from '../redux/prop-types';
 import { certMap } from '../resources/cert-and-project-map';
 import certificateMissingMessage from '../utils/certificate-missing-message';
 import reallyWeirdErrorMessage from '../utils/really-weird-error-message';
@@ -33,9 +34,9 @@ import standardErrorMessage from '../utils/standard-error-message';
 
 import ShowProjectLinks from './show-project-links';
 
-const { clientLocale } = envData as { clientLocale: keyof typeof langCodes };
+const { clientLocale } = envData;
 
-const localeCode = langCodes[clientLocale];
+const localeCode = getLangCode(clientLocale);
 type Cert = {
   username: string;
   name: string;
@@ -70,9 +71,7 @@ interface ShowCertificationProps {
   }) => void;
   signedInUserName: string;
   user: User;
-  userFetchState: {
-    complete: boolean;
-  };
+  userFetchState: UserFetchState;
   userFullName: string;
   username: string;
 }
@@ -95,7 +94,7 @@ const mapStateToProps = (state: unknown, props: ShowCertificationProps) => {
       cert: Cert,
       fetchState: ShowCertificationProps['fetchState'],
       signedInUserName: string,
-      userFetchState: ShowCertificationProps['userFetchState'],
+      userFetchState: UserFetchState,
       isDonating: boolean,
       user
     ) => ({
@@ -258,6 +257,7 @@ const ShowCertification = (props: ShowCertificationProps): JSX.Element => {
 
   const donationSection = (
     <div className='donation-section'>
+      <Spacer size={2} />
       {!isDonationSubmitted && (
         <Row>
           <Col lg={8} lgOffset={2} sm={10} smOffset={1} xs={12}>
@@ -268,7 +268,7 @@ const ShowCertification = (props: ShowCertificationProps): JSX.Element => {
       <Row>
         <Col lg={8} lgOffset={2} sm={10} smOffset={1} xs={12}>
           <DonateForm
-            defaultTheme='default'
+            defaultTheme={Themes.Default}
             handleProcessing={handleProcessing}
             isMinimalForm={true}
           />
@@ -317,13 +317,12 @@ const ShowCertification = (props: ShowCertificationProps): JSX.Element => {
 
   return (
     <Grid className='certificate-outer-wrapper'>
-      <Spacer size={2} />
       {isDonationDisplayed && !isDonationClosed ? donationSection : ''}
       <Row className='certificate-wrapper certification-namespace'>
         <header>
           <Col md={5} sm={12}>
             <div className='logo'>
-              <FreeCodeCampLogo />
+              <FreeCodeCampLogo aria-hidden='true' />
             </div>
           </Col>
           <Col md={7} sm={12}>
@@ -376,19 +375,17 @@ const ShowCertification = (props: ShowCertificationProps): JSX.Element => {
           </Row>
         </footer>
       </Row>
-      <Spacer size={2} />
-      {signedInUserName === username ? shareCertBtns : ''}
-      <Spacer size={2} />
-      <ShowProjectLinks certName={certTitle} name={displayName} user={user} />
-      <Spacer size={2} />
+      <div className='row certificate-links'>
+        <Spacer size={2} />
+        {signedInUserName === username ? shareCertBtns : ''}
+        <Spacer size={2} />
+        <ShowProjectLinks certName={certTitle} name={displayName} user={user} />
+        <Spacer size={2} />
+      </div>
     </Grid>
   );
 };
 
 ShowCertification.displayName = 'ShowCertification';
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-)(ShowCertification as any);
+export default connect(mapStateToProps, mapDispatchToProps)(ShowCertification);

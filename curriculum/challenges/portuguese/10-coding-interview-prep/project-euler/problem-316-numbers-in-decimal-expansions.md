@@ -1,7 +1,7 @@
 ---
 id: 5900f4a81000cf542c50ffbb
 title: 'Problema 316: Números em expansões decimais'
-challengeType: 5
+challengeType: 1
 forumTopicId: 301972
 dashedName: problem-316-numbers-in-decimal-expansions
 ---
@@ -28,7 +28,7 @@ etc. e vemos que $g(535) = 1008$.
 
 Dado que $\displaystyle\sum_{n = 2}^{999} g\left(\left\lfloor\frac{{10}^6}{n}\right\rfloor\right) = 27280188$, find $\displaystyle\sum_{n = 2}^{999.999} g\left(\left\lfloor\frac{{10}^{16}}{n}\right\rfloor\right)$.
 
-**Observação:** $\lfloor x\rfloor$ representa a função de base.
+**Observação:** $\lfloor x\rfloor$ representa a função piso.
 
 # --hints--
 

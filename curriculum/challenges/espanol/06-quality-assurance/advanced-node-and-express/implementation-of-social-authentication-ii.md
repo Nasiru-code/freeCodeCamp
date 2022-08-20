@@ -1,6 +1,6 @@
 ---
 id: 589a69f5f9fc0f352b528e71
-title: Implementation of Social Authentication II
+title: Implementación de la autentificación social II
 challengeType: 2
 forumTopicId: 301557
 dashedName: implementation-of-social-authentication-ii
@@ -8,11 +8,13 @@ dashedName: implementation-of-social-authentication-ii
 
 # --description--
 
-The last part of setting up your GitHub authentication is to create the strategy itself. For this, you will need to add the dependency of `passport-github@~1.1.0` to your project and require it in your `auth.js` as `GithubStrategy` like this: `const GitHubStrategy = require('passport-github').Strategy;`. Do not forget to require and configure `dotenv` to use your environment variables.
+La última parte de configurar tu autentificación de GitHub es crear la propia estrategia. Para esto, necesitarás agregar la dependencia de `passport-github@~1.1.0` a tu proyecto y requiérelo en tu `auth.js` como `GithubStrategy` así: `const GitHubStrategy = require('passport-github').Strategy;`. No olvides requerir y configurar `dotenv` para usar tus variables de entorno.
 
-To set up the GitHub strategy, you have to tell Passport to use an instantiated `GitHubStrategy`, which accepts 2 arguments: an object (containing `clientID`, `clientSecret`, and `callbackURL`) and a function to be called when a user is successfully authenticated, which will determine if the user is new and what fields to save initially in the user's database object. This is common across many strategies, but some may require more information as outlined in that specific strategy's GitHub README. For example, Google requires a *scope* as well which determines what kind of information your request is asking to be returned and asks the user to approve such access. The current strategy we are implementing has its usage outlined [here](https://github.com/jaredhanson/passport-github/), but we're going through it all right here on freeCodeCamp!
+Para configurar la estrategia de GitHub, debes decirle a Passport que utilice una instancia de `GitHubStrategy`, que acepta 2 argumentos: un objeto (que contiene `clientID`, `clientSecret`, y `callbackURL`) y una función a ser llamada cuando un usuario es autentificado con éxito, que determinará si el usuario es nuevo y qué campos guardar inicialmente en el objeto de base de datos del usuario. Esto es común en muchas estrategias, pero algunas pueden requerir más información como se indica en el README de GitHub de esa estrategia específica. Por ejemplo, Google requiere un *ámbito* también que determina qué tipo de información está pidiendo que se le devuelva y pide al usuario que apruebe dicho acceso.
 
-Here's how your new strategy should look at this point:
+La estrategia actual que estamos implementando auténtica a los usuarios mediante una cuenta de GitHub y tokens OAuth 2.0. El ID de cliente y el secreto obtenidos al crear una aplicación se proporcionan como opciones al crear la estrategia. La estrategia también requiere un callback `verify`, que recibe el token de acceso y el token de actualización opcional, así como `profile` que contiene el perfil de GitHub del usuario autenticado. El callback `verify` debe llamar a `cb` que proporciona un usuario para completar la autenticación.
+
+Así es como debe verse tu nueva estrategia en este punto:
 
 ```js
 passport.use(new GitHubStrategy({
@@ -27,13 +29,13 @@ passport.use(new GitHubStrategy({
 ));
 ```
 
-Your authentication won't be successful yet, and it will actually throw an error without the database logic and callback, but it should log your GitHub profile to your console if you try it!
+¡Tu autenticación aún no será exitosa, y en realidad arrojará un error sin la lógica de la base de datos y el callback, pero debería registrar tu perfil de GitHub en tu consola si lo intentas!
 
-Submit your page when you think you've got it right. If you're running into errors, you can check out the project completed up to this point [here](https://gist.github.com/camperbot/ff3a1166684c1b184709ac0bee30dee6).
+Envía tu página cuando creas que la tienes correcta. Si te encuentras con errores, puedes consultar el proyecto completado hasta este punto [Aquí](https://gist.github.com/camperbot/ff3a1166684c1b184709ac0bee30dee6).
 
 # --hints--
 
-passport-github dependency should be added.
+se debe agregar la dependencia passport-github.
 
 ```js
 (getUserInput) =>
@@ -52,7 +54,7 @@ passport-github dependency should be added.
   );
 ```
 
-passport-github should be required.
+se debe requerir passport-github.
 
 ```js
 (getUserInput) =>
@@ -70,7 +72,7 @@ passport-github should be required.
   );
 ```
 
-GitHub strategy should be setup correctly thus far.
+La estrategia de GitHub debe estar configurada correctamente hasta ahora.
 
 ```js
 (getUserInput) =>
@@ -88,12 +90,12 @@ GitHub strategy should be setup correctly thus far.
       );
       assert.match(
         data,
-        /process.env.GITHUB_CLIENT_SECRET/g,
+        /process\.env(\.GITHUB_CLIENT_SECRET|\[(?<q>"|')GITHUB_CLIENT_SECRET\k<q>\])/g,
         'You should use process.env.GITHUB_CLIENT_SECRET'
       );
       assert.match(
         data,
-        /process.env.GITHUB_CLIENT_ID/g,
+        /process\.env(\.GITHUB_CLIENT_ID|\[(?<q>"|')GITHUB_CLIENT_ID\k<q>\])/g,
         'You should use process.env.GITHUB_CLIENT_ID'
       );
     },
@@ -107,8 +109,8 @@ GitHub strategy should be setup correctly thus far.
 
 ```js
 /**
-  Backend challenges don't need solutions, 
-  because they would need to be tested against a full working project. 
+  Backend challenges don't need solutions,
+  because they would need to be tested against a full working project.
   Please check our contributing guidelines to learn more.
 */
 ```

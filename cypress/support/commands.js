@@ -33,39 +33,48 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => {});
 
 Cypress.Commands.add('login', () => {
-  cy.visit('/');
-  cy.contains("Get started (it's free)").click();
-  cy.location().should(loc => {
-    // I'm not 100% sure why logins get redirected to /learn/ via 301 in
-    // development, but not in production, but they do. Hence to make it easier
-    // work on tests, we'll just allow for both.
-    expect(loc.pathname).to.match(/^\/learn\/?$/);
-  });
+  cy.visit(`${Cypress.env('API_LOCATION')}/signin`);
   cy.contains('Welcome back');
 });
 
-Cypress.Commands.add('toggleAll', () => {
-  cy.visit('/settings');
-  // cy.get('input[name="isLocked"]').click();
-  // cy.get('input[name="name"]').click();
+Cypress.Commands.add('preserveSession', () => {
+  Cypress.Cookies.preserveOnce(
+    'jwt_access_token',
+    'csrf_token',
+    '_csrf',
+    'connect.sid'
+  );
+});
+
+Cypress.Commands.add('setPrivacyTogglesToPublic', () => {
   cy.get('#privacy-settings')
     .find('.toggle-not-active')
     .each(element => {
-      return new Cypress.Promise(resolve => {
-        cy.wrap(element).click().should('have.class', 'toggle-active');
-        resolve();
-      });
+      cy.wrap(element).click().should('have.class', 'toggle-active');
     });
-  cy.get('#honesty-policy').find('button').click().wait(300);
+  cy.get('[data-cy=save-privacy-settings]').click();
+  cy.get('#honesty-policy').find('button').click();
+  cy.contains('You have accepted our Academic Honesty Policy');
+});
+
+Cypress.Commands.add('goToSettings', () => {
+  cy.visit('/settings');
+
+  // Setting aliases here
+  cy.get('[data-cy=username-input]').as('usernameInput');
+  cy.get('[data-cy=username-form]').as('usernameForm');
+});
+
+Cypress.Commands.add('typeUsername', username => {
+  cy.get('@usernameInput')
+    .clear({ force: true })
+    .type(username, { force: true });
 });
 
 Cypress.Commands.add('resetUsername', () => {
-  cy.login();
-  cy.visit('/settings');
+  cy.goToSettings();
 
-  cy.get('@usernameInput')
-    .clear({ force: true })
-    .type('developmentuser', { force: true });
+  cy.typeUsername('developmentuser');
 
   cy.contains('Username is available');
 

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Grid, Col, Row } from '@freecodecamp/react-bootstrap';
 import { graphql } from 'gatsby';
 import React, { Component } from 'react';
@@ -65,8 +63,7 @@ interface ProjectProps {
 // Component
 class Project extends Component<ProjectProps> {
   static displayName: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private _container: any;
+  private _container: HTMLElement | null = null;
 
   constructor(props: ProjectProps) {
     super(props);
@@ -76,7 +73,9 @@ class Project extends Component<ProjectProps> {
     const {
       challengeMounted,
       data: {
-        challengeNode: { title, challengeType, helpCategory }
+        challengeNode: {
+          challenge: { title, challengeType, helpCategory }
+        }
       },
       pageContext: { challengeMeta },
       updateChallengeMeta
@@ -88,19 +87,23 @@ class Project extends Component<ProjectProps> {
       helpCategory
     });
     challengeMounted(challengeMeta.id);
-    this._container.focus();
+    this._container?.focus();
   }
 
   componentDidUpdate(prevProps: ProjectProps): void {
     const {
       data: {
-        challengeNode: { title: prevTitle }
+        challengeNode: {
+          challenge: { title: prevTitle }
+        }
       }
     } = prevProps;
     const {
       challengeMounted,
       data: {
-        challengeNode: { title: currentTitle, challengeType, helpCategory }
+        challengeNode: {
+          challenge: { title: currentTitle, challengeType, helpCategory }
+        }
       },
       pageContext: { challengeMeta },
       updateChallengeMeta
@@ -130,15 +133,18 @@ class Project extends Component<ProjectProps> {
     const {
       data: {
         challengeNode: {
-          challengeType,
-          fields: { blockName },
-          forumTopicId,
-          title,
-          description,
-          instructions,
-          superBlock,
-          block,
-          translationPending
+          challenge: {
+            challengeType,
+            fields: { blockName },
+            forumTopicId,
+            title,
+            description,
+            instructions,
+            superBlock,
+            certification,
+            block,
+            translationPending
+          }
         }
       },
       isChallengeCompleted,
@@ -149,7 +155,9 @@ class Project extends Component<ProjectProps> {
       updateSolutionFormValues
     } = this.props;
 
-    const blockNameTitle = `${blockName} - ${title}`;
+    const blockNameTitle = `${t(
+      `intro:${superBlock}.blocks.${block}.title`
+    )} - ${title}`;
 
     return (
       <Hotkeys
@@ -193,6 +201,7 @@ class Project extends Component<ProjectProps> {
               <CompletionModal
                 block={block}
                 blockName={blockName}
+                certification={certification}
                 superBlock={superBlock}
               />
               <HelpModal />
@@ -213,19 +222,22 @@ export default connect(
 
 export const query = graphql`
   query ProjectChallenge($slug: String!) {
-    challengeNode(fields: { slug: { eq: $slug } }) {
-      forumTopicId
-      title
-      description
-      instructions
-      challengeType
-      helpCategory
-      superBlock
-      block
-      translationPending
-      fields {
-        blockName
-        slug
+    challengeNode(challenge: { fields: { slug: { eq: $slug } } }) {
+      challenge {
+        forumTopicId
+        title
+        description
+        instructions
+        challengeType
+        helpCategory
+        superBlock
+        certification
+        block
+        translationPending
+        fields {
+          blockName
+          slug
+        }
       }
     }
   }

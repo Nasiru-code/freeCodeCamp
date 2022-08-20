@@ -14,7 +14,7 @@ Si consiglia di utilizzare [Titolo convenzionale e messaggi](https://www.convent
 > 
 > `fix(learn): tests for the do...while loop challenge`
 
-Quando apri una Pull Request (PR), puoi usare la seguente lista per determinare il tipo (type), l'ambito (scope) (opzionale), e la descrizione.
+Ogni volta in cui apri una Pull Request (PR), puoi usare la seguente lista per determinare il tipo (type), l'ambito (scope) (opzionale), e la descrizione.
 
 **Tipo:**
 
@@ -31,20 +31,20 @@ Puoi selezionare un ambito da [questo elenco di etichette](https://github.com/fr
 
 **Descrizione:**
 
-Scrivila breve (meno di 30 caratteri) e semplice: puoi aggiungere ulteriori informazioni nella casella di descrizione PR e nei commenti.
+Scrivila breve (meno di 30 caratteri) e semplice; puoi aggiungere ulteriori informazioni nella casella di descrizione PR e nei commenti.
 
 Alcuni esempi di buoni titoli PR sarebbero:
 
 - `fix(a11y): improved search bar contrast`
 - `feat: add more tests to HTML and CSS challenges`
 - `fix(api,client): prevent CORS errors on form submission`
-- `docs(i18n): Chinese translation of local setup`
+- `docs(i18n): correggi i link affinché siano relativi invece che assoluti`
 
 ## Proporre una Pull Request
 
 1. Una volta che le modifiche sono state effettuate, ti verrà chiesto di creare una pull request sulla pagina GitHub della tua fork.
 
-   ![Immagine - Confrontare il prompt delle pull request su GitHub](https://contribute.freecodecamp.org/images/github/compare-pull-request-prompt.png)
+   ![Immagine - Compare & pull request prompt su GitHub](https://contribute.freecodecamp.org/images/github/compare-pull-request-prompt.png)
 
 2. Di default, tutte le pull request dovrebbero essere sul repository principale di freeCodeCamp, nel ramo `main`.
 
@@ -54,7 +54,7 @@ Alcuni esempi di buoni titoli PR sarebbero:
 
 3. Fai la pull request dal tuo ramo al ramo `main` di freeCodeCamp.
 
-4. Nel corpo della tua PR includi un riepilogo più dettagliato delle modifiche apportate e perché.
+4. Includi un riassunto più dettagliato delle modifiche apportate e di come sono d'aiuto nel corpo della tua PR.
 
    - Ti sarà presentato un modello di pull request. Questa è una lista di controllo che avresti dovuto seguire prima di aprire la pull request.
 
@@ -72,11 +72,11 @@ Alcuni esempi di buoni titoli PR sarebbero:
 
 ## Feedback sulle pull request
 
-> Congratulazioni! :tada: per avere fatto una PR e grazie mille per aver speso del tempo per contribuire.
+> :tada: Congratulazioni per avere creato un PR e grazie mille per aver dedicato il tuo tempo a contribuire.
 
 I nostri moderatori ora daranno un'occhiata e ti lasceranno un feedback. Ti preghiamo di essere paziente con i colleghi moderatori e di rispettare il loro tempo. Tutte le pull request sono riviste a tempo debito.
 
-E come sempre, poni liberamente le tue domande nella [categoria 'Contributors' del nostro forum](https://forum.freecodecamp.org/c/contributors) o [nella chat room per i contributori](https://chat.freecodecamp.org/channel/contributors).
+E come sempre, poni liberamente le tue domande [nella categoria 'Contributors' sul nostro forum](https://forum.freecodecamp.org/c/contributors) o [nella chat room per i contributori](https://discord.gg/PRyKn3Vbay).
 
 > [!TIP] Se vuoi contribuire a più di una PR, ti raccomandiamo di leggere la [guida su fare modifiche e sincronizzare](how-to-setup-freecodecamp-locally.md#making-changes-locally) per evitare di dover cancellare il tuo fork.
 

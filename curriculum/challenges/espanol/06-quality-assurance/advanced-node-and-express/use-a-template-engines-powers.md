@@ -1,6 +1,6 @@
 ---
 id: 5895f70bf9fc0f352b528e64
-title: Use a Template Engine's Powers
+title: Usar poderes de un motor de plantillas
 challengeType: 2
 forumTopicId: 301567
 dashedName: use-a-template-engines-powers
@@ -8,23 +8,47 @@ dashedName: use-a-template-engines-powers
 
 # --description--
 
-One of the greatest features of using a template engine is being able to pass variables from the server to the template file before rendering it to HTML.
+Una de las mayores características del uso de un motor de plantillas, es ser capaz de pasar variables desde el servidor al archivo de plantilla, antes de renderizarlo a HTML.
 
-In your Pug file, you're able to use a variable by referencing the variable name as `#{variable_name}` inline with other text on an element or by using an equal sign on the element without a space such as `p=variable_name` which assigns the variable's value to the p element's text.
+En tu archivo Pug, puedes usar variables referenciando el nombre de la misma como `#{variable_name}`, en la misma línea con otro texto en un elemento o utilizando un signo igual en el elemento sin un espacio como `p=variable_name`, lo cual asigna el valor de la variable al texto del elemento p.
 
-We strongly recommend looking at the syntax and structure of Pug [here](https://github.com/pugjs/pug) on GitHub's README. Pug is all about using whitespace and tabs to show nested elements and cutting down on the amount of code needed to make a beautiful site.
+ Pug se trata de usar espacios en blanco y pestañas para mostrar elementos anidados y reducir la cantidad de código necesario para crear un sitio hermoso. Lee la documentación de Pug para obtener más información sobre el uso y la sintaxis.
 
-Looking at our pug file 'index.pug' included in your project, we used the variables *title* and *message*.
+ Aquí hay un ejemplo:
 
-To pass those along from our server, you will need to add an object as a second argument to your *res.render* with the variables and their values. For example, pass this object along setting the variables for your index view: `{title: 'Hello', message: 'Please login'}`
+ ```html
+ <!--Typing this using Pug-->
+ head
+    script(type='text/javascript').
+      if (foo) bar(1 + 5);
+  body
+    if youAreUsingPug
+        p You are amazing
+      else
+        p Get on it!
 
-It should look like: `res.render(process.cwd() + '/views/pug/index', {title: 'Hello', message: 'Please login'});` Now refresh your page and you should see those values rendered in your view in the correct spot as laid out in your index.pug file!
+<!--will lead to creating this code-->
+  <head>
+    <script type="text/javascript">
+      if (foo) bar(1 + 5);
+    </script>
+  </head>
+  <body>
+    <p>You are amazing</p>
+  </body>
+  ```
 
-Submit your page when you think you've got it right. If you're running into errors, you can check out the project completed up to this point [here](https://gist.github.com/camperbot/4af125119ed36e6e6a8bb920db0c0871).
+Mirando nuestro archivo pug `index.pug` incluida tu proyecto, utilizamos las variables `title` y `message`.
+
+Para pasarlos desde nuestro servidor, debes agregar un objeto como segundo argumento a tu `res.render` con las variables y sus valores. Por ejemplo, pasa este objeto junto con la configuración de las variables para tu vista de índice: `{title: 'Hello', message: 'Please login'}`
+
+!Debe verse así: `res.render(process.cwd() + '/views/pug/index', {title: 'Hello', message: 'Please login'});` Ahora actualiza tu página y debes ver esos valores representados en tu vista en el lugar correcto como se establece en tu archivo `index.pug`!
+
+Envía tu página cuando creas que la tienes correcta. Si te encuentras con errores, puedes consultar el [proyecto completado hasta este momento](https://gist.github.com/camperbot/4af125119ed36e6e6a8bb920db0c0871).
 
 # --hints--
 
-Pug should correctly render variables.
+Pug debe procesar correctamente las variables.
 
 ```js
 (getUserInput) =>
